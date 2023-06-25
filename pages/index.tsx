@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="bg-slate-400 px-10 py-10 grid gap-10">
+    <div className="bg-slate-400 px-10 py-10 grid gap-10 min-h-screen">
       <div className="bg-white p-5 rounded-3xl shadow-xl">
         <span className="font-semibold text-3xl">Select Item</span>
         <div className="flex justify-between my-1">
@@ -45,8 +45,44 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="bg-white p-10 rounded-3xl shadow-xl"></div>
-      <div className="bg-white p-10 rounded-3xl shadow-xl"></div>
+      <div className="bg-white p-10 rounded-3xl shadow-xl">
+        <div className="flex justify-between">
+          <span>⬅️</span>
+          <div className="space-x-3">
+            <span>⭐️4.9</span>
+            <span className="shadow-lg p-1 rounded-xl">💖</span>
+          </div>
+        </div>
+        <div className="bg-zinc-400 h-60 mb-5" />
+        <div>
+          <div className="flex flex-col">
+            <span className="font-medium mb-1.5">Swoon Lounge</span>
+            <span className="text-xs text-gray-500">Chair</span>
+          </div>
+          <div className="mt-2 flex justify-between items-center">
+            <div>
+              <input type="radio" />
+              <input type="radio" />
+              <input type="radio" />
+            </div>
+            <div className="flex justify-center items-center space-x-2">
+              <button className="bg-blue-200  text-white rounded-lg p-2 w-8 aspect-square ">
+                -
+              </button>
+              <span className="text-lg">1</span>
+              <button className="bg-blue-200  text-white rounded-lg p-2  w-8 aspect-square ">
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-between mt-3">
+          <span className="text-3xl">$450</span>
+          <button className="bg-blue-500 text-white rounded-lg p-5">
+            Add to cart
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
