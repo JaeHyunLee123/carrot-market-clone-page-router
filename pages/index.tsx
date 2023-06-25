@@ -22,12 +22,26 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <div className="bg-white p-10 rounded-3xl shadow-xl">
-        <div>
-          <span>Profile</span>
+      <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div className="bg-blue-500 p-6 pb-14">
+          <span className="text-white text-2xl">Profile</span>
         </div>
-        <div>
-          <div></div>
+        <div className="rounded-3xl p-6 bg-white relative -top-5 -mb-10">
+          <div className="flex relative -top-16 justify-between items-end">
+            <div className="flex flex-col items-center">
+              <span className="text-sm text-gray-500">Orders</span>
+              <span className="font-medium">340</span>
+            </div>
+            <div className="h-24 w-24 bg-red-400 rounded-full" />
+            <div className="flex flex-col items-center">
+              <span className="text-sm text-gray-500">Spent</span>
+              <span className="font-medium">$180</span>
+            </div>
+          </div>
+          <div className="relative flex flex-col -top-10 items-center justify-start -mt-3">
+            <span className="text-lg font-medium">이재현</span>
+            <span className="text-sm text-gray-500">한국</span>
+          </div>
         </div>
       </div>
 
