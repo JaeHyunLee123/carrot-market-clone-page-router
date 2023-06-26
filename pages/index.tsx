@@ -65,9 +65,9 @@ const Home: NextPage = () => {
           </div>
           <div className="mt-2 flex justify-between items-center">
             <div className="space-x-3">
-              <button className="w-5 h-5 rounded-full bg-yellow-500" />
-              <button className="w-5 h-5 rounded-full bg-indigo-500" />
-              <button className="w-5 h-5 rounded-full bg-teal-500" />
+              <button className="w-5 h-5 rounded-full bg-yellow-500 focus:ring-2 ring-offset-1 ring-yellow-500 transition" />
+              <button className="w-5 h-5 rounded-full bg-indigo-500 focus:ring-2 ring-offset-1 ring-indigo-500 transition" />
+              <button className="w-5 h-5 rounded-full bg-teal-500 focus:ring-2 ring-offset-1 ring-teal-500 transition" />
             </div>
             <div className="flex justify-center items-center space-x-2">
               <button className="bg-blue-200  text-white rounded-lg p-2 w-8 aspect-square ">
