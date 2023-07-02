@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 const Bought: NextPage = () => {
   return (
-    <div className="flex flex-col space-y-5 py-10">
+    <div className="flex flex-col space-y-5 py-16">
       {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
         <div
           key={i}
