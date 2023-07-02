@@ -3,13 +3,14 @@ import { NextPage } from "next";
 const StreamList: NextPage = () => {
   return (
     <div className="px-4 py-16">
-      <div className="flex flex-col"></div>
-      {[1, 1, 1, 1, 1].map((_, i) => (
-        <div key={i} className="flex flex-col space-y-2 border-b pb-3 mt-4">
-          <div className="w-full bg-gray-400 aspect-video rounded-sm" />
-          <span className="text-gray-800 text-lg">Wow this is a video!</span>
-        </div>
-      ))}
+      <div className="flex flex-col space-y-4">
+        {[1, 1, 1, 1, 1].map((_, i) => (
+          <div key={i} className="flex flex-col space-y-2 border-b pb-3">
+            <div className="w-full bg-gray-400 aspect-video rounded-sm" />
+            <span className="text-gray-800 text-lg">Wow this is a video!</span>
+          </div>
+        ))}
+      </div>
       <button className="hover:bg-orange-500 cursor-pointer transition-colors fixed bottom-16 right-5 bg-orange-400 rounded-full p-4 shadow-xl text-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
