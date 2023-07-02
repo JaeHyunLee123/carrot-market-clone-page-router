@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 
 const ItemDetail: NextPage = () => {
   return (
-    <div className="flex flex-col px-4 py-6">
+    <div className="flex flex-col px-4 py-16">
       <div>
         <div className="w-full h-96 bg-gray-400" />
         <div className="flex  cursor-pointer mt-5 border-b pb-4 items-center space-x-4">

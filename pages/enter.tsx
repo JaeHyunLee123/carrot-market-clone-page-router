@@ -1,15 +1,16 @@
 import { useState } from "react";
+import type { NextPage } from "next";
 
 const cls = (...classnames: string[]) => {
   return classnames.join(" ");
 };
 
-export default function Enter() {
+const Enter = (): NextPage => {
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => setMethod("email");
   const onPhoneClick = () => setMethod("phone");
   return (
-    <div className="mt-16 mx-4">
+    <div className="py-16 px-4">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
       <div className="mt-8">
         <div className="flex flex-col items-center">
@@ -113,4 +114,6 @@ export default function Enter() {
       </div>
     </div>
   );
-}
+};
+
+export default Enter;
