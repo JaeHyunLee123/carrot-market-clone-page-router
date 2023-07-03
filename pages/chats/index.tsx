@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Layout from "../../components/layout";
+import Link from "next/link";
 
 const Chats: NextPage = () => {
   return (
@@ -7,7 +8,8 @@ const Chats: NextPage = () => {
       <div className="px-4">
         <div className="flex flex-col space-y-2">
           {[1, 1, 1, 1].map((_, i) => (
-            <div
+            <Link
+              href="/chats/1"
               key={i}
               className="flex cursor-pointer mt-5 border-b pb-4 items-center space-x-4"
             >
@@ -16,7 +18,7 @@ const Chats: NextPage = () => {
                 <p className="font-medium text-gray-700">Steve Jebs</p>
                 <p className="text-sm text-gray-600">Hello</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

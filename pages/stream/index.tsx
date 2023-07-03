@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import Layout from "../../components/layout";
 import FloatingButton from "../../components/floatingbutton";
+import Link from "next/link";
 
 const StreamList: NextPage = () => {
   return (
@@ -8,12 +9,16 @@ const StreamList: NextPage = () => {
       <div className="px-4">
         <div className="flex flex-col space-y-4">
           {[1, 1, 1, 1, 1].map((_, i) => (
-            <div key={i} className="flex flex-col space-y-2 border-b pb-3">
+            <Link
+              href="/stream/1"
+              key={i}
+              className="flex flex-col space-y-2 border-b pb-3"
+            >
               <div className="w-full bg-gray-400 aspect-video rounded-sm" />
               <span className="text-gray-800 text-lg">
                 Wow this is a video!
               </span>
-            </div>
+            </Link>
           ))}
         </div>
         <FloatingButton href="/stream/create">

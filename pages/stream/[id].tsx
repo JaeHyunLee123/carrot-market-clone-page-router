@@ -1,10 +1,11 @@
 import { NextPage } from "next";
 import Layout from "../../components/layout";
+import Message from "../../components/message";
 
 const StreamDetail: NextPage = () => {
   return (
     <Layout canGoBack={true}>
-      <div className="px-4">
+      <div className="px-4 pb-10">
         <div className="flex flex-col space-y-2 pb-3 mt-4">
           <div className="w-full bg-gray-400 aspect-video rounded-sm" />
           <span className="text-gray-800 text-2xl text-center">
@@ -12,21 +13,11 @@ const StreamDetail: NextPage = () => {
           </span>
         </div>
 
-        <div className="flex flex-col space-y-3 mt-5 h-[50vh] overflow-y-scroll">
+        <div className="flex flex-col space-y-3 mt-5 h-[45vh] overflow-y-scroll">
           {[1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
             <div key={i} className="flex flex-col space-y-3">
-              <div className="flex items-center space-x-3">
-                <div className="aspect-square w-10 bg-gray-400 rounded-full" />
-                <p className="border border-gray-400 rounded-lg py-2 px-4">
-                  댓글 좀 읽어주세요
-                </p>
-              </div>
-              <div className="flex flex-row-reverse items-center space-x-3 space-x-reverse">
-                <div className="aspect-square w-10 bg-gray-400 rounded-full" />
-                <p className="border border-gray-400 rounded-lg py-2 px-4">
-                  싫어요
-                </p>
-              </div>
+              <Message message="안녕?" />
+              <Message message="Hello" reversed={true} />
             </div>
           ))}
         </div>
