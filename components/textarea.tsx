@@ -7,12 +7,7 @@ interface ITextAreaProps {
   [key: string]: any;
 }
 
-export default function TextArea({
-  label,
-  name,
-  placeholder,
-  ...rest
-}: ITextAreaProps) {
+const TextArea = ({ label, name, placeholder, ...rest }: ITextAreaProps) => {
   return (
     <div>
       {label ? (
@@ -35,4 +30,6 @@ export default function TextArea({
       />
     </div>
   );
-}
+};
+
+export default TextArea;

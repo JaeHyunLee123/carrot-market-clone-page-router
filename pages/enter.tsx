@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "../components/button";
 import { cls } from "../libs/utils";
 import Layout from "../components/layout";
+import Input from "../components/input";
 
 const Enter = () => {
   const [method, setMethod] = useState<"email" | "phone">("email");
@@ -10,10 +11,10 @@ const Enter = () => {
   return (
     <Layout canGoBack={true}>
       <div className="px-4">
-        <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
+        <h3 className="text-3xl font-bold text-center">캐럿마켓 로그인</h3>
         <div className="mt-8">
           <div className="flex flex-col items-center">
-            <h5 className="text-sm text-gray-500 font-medium">Enter using:</h5>
+            <h5 className="text-sm text-gray-500 font-medium">간편 로그인</h5>
             <div className="grid grid-cols-2 gap-16 mt-8  w-full border-b">
               <button
                 className={cls(
@@ -24,7 +25,7 @@ const Enter = () => {
                 )}
                 onClick={onEmailClick}
               >
-                Email
+                이메일
               </button>
               <button
                 className={cls(
@@ -35,43 +36,19 @@ const Enter = () => {
                 )}
                 onClick={onPhoneClick}
               >
-                Phone
+                전화번호
               </button>
             </div>
           </div>
-          <form className="flex flex-col mt-8">
-            <label
-              htmlFor="input"
-              className="text-sm font-medium text-gray-700 mt-2"
-            >
-              {method === "email" ? "Email address" : null}
-              {method === "phone" ? "Phone number" : null}
-            </label>
-            <div>
-              {method === "email" ? (
-                <input
-                  id="input"
-                  className="appearance-none w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-orange-500 focus:ring-orange-500 rounded-md shadow-sm placeholder-gray-400"
-                  required
-                />
-              ) : null}
-              {method === "phone" ? (
-                <div className="flex rounded-sm shadow-sm">
-                  <span className="flex items-center justify-center px-3 rounded-l-md border border-r-0 border-gray-300 select-none bg-gray-50 text-gray-500">
-                    +82
-                  </span>
-                  <input
-                    id="input"
-                    className="appearance-none rounded-l-none w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-orange-500 focus:ring-orange-500 rounded-md shadow-sm placeholder-gray-400"
-                    type="number"
-                    required
-                  />
-                </div>
-              ) : null}
-            </div>
+          <form className="flex flex-col mt-8 space-y-4">
+            <Input
+              label={method === "email" ? "이메일" : "전화번호"}
+              name="userauth"
+              kind={method == "email" ? "email" : "phone"}
+            />
             <Button
               text={
-                method === "email" ? "Get login link" : "Get one-time password"
+                method === "email" ? "로그인 링크 받기" : "일회용 비밀번호 받기"
               }
             />
           </form>
@@ -80,7 +57,7 @@ const Enter = () => {
               <div className="absolute w-full border-t border-gray-300" />
               <div className="relative -top-3 text-center">
                 <span className="bg-white px-2 text-sm text-gray-500">
-                  Or enter with
+                  아래 계정으로 로그인
                 </span>
               </div>
             </div>
