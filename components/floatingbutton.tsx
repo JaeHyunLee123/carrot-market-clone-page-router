@@ -2,12 +2,12 @@ import Link from "next/link";
 import React from "react";
 import { cls } from "../libs/utils";
 
-interface IFloatingButton {
+interface IFloatingButtonProps {
   children: React.ReactNode;
   href: string;
 }
 
-const FloatingButton = ({ href, children }: IFloatingButton) => {
+const FloatingButton = ({ href, children }: IFloatingButtonProps) => {
   return (
     <Link
       className={cls(

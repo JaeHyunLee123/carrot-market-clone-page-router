@@ -16,7 +16,10 @@ const Profile: NextPage = () => {
           </div>
         </div>
         <div className="grid grid-cols-3 mt-10">
-          <div className="flex flex-col items-center space-y-2 cursor-pointer">
+          <Link
+            href="/profile/sold"
+            className="flex flex-col items-center space-y-2 cursor-pointer"
+          >
             <div className="w-fit bg-orange-500 p-4 rounded-full text-white hover:bg-orange-600">
               <svg
                 className="w-6 h-6"
@@ -34,8 +37,11 @@ const Profile: NextPage = () => {
               </svg>
             </div>
             <span className="text-sm text-gray-500">판매내역</span>
-          </div>
-          <div className="flex flex-col items-center space-y-2 cursor-pointer">
+          </Link>
+          <Link
+            href="/profile/bought"
+            className="flex flex-col items-center space-y-2 cursor-pointer"
+          >
             <div className="w-fit bg-orange-500 p-4 rounded-full text-white hover:bg-orange-600">
               <svg
                 className="w-6 h-6"
@@ -53,8 +59,11 @@ const Profile: NextPage = () => {
               </svg>
             </div>
             <span className="text-sm text-gray-500">구매내역</span>
-          </div>
-          <div className="flex flex-col items-center space-y-2 cursor-pointer">
+          </Link>
+          <Link
+            href="/profile/loved"
+            className="flex flex-col items-center space-y-2 cursor-pointer"
+          >
             <div className="w-fit bg-orange-500 p-4 rounded-full text-white hover:bg-orange-600">
               <svg
                 className="w-6 h-6"
@@ -72,7 +81,7 @@ const Profile: NextPage = () => {
               </svg>
             </div>
             <span className="text-sm text-gray-500">관심목록</span>
-          </div>
+          </Link>
         </div>
         <div>
           <div className="flex space-x-2 items-center mt-10">
