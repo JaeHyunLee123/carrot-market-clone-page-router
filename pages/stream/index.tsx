@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Layout from "../../components/layout";
+import FloatingButton from "../../components/floatingbutton";
 
 const StreamList: NextPage = () => {
   return (
@@ -15,7 +16,7 @@ const StreamList: NextPage = () => {
             </div>
           ))}
         </div>
-        <button className="hover:bg-orange-500 cursor-pointer transition-colors fixed bottom-16 right-5 bg-orange-400 rounded-full p-4 shadow-xl text-white">
+        <FloatingButton href="/stream/create">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -29,7 +30,7 @@ const StreamList: NextPage = () => {
               d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
             />
           </svg>
-        </button>
+        </FloatingButton>
       </div>
     </Layout>
   );
