@@ -1,16 +1,13 @@
 import type { NextPage } from "next";
 import Button from "../../components/button";
 import Layout from "../../components/layout";
+import TextArea from "../../components/textarea";
 
 const Write: NextPage = () => {
   return (
     <Layout canGoBack={true}>
-      <form className="px-4 py-16">
-        <textarea
-          className="mt-1 shadow-sm w-full focus:ring-orange-500 rounded-md border-gray-300 focus:border-orange-500 "
-          rows={4}
-          placeholder="Ask question!"
-        />
+      <form className="px-4 flex flex-col space-y-3">
+        <TextArea placeholder="궁굼한 것을 물어보세요!" />
         <Button text="Submit" />
       </form>
     </Layout>

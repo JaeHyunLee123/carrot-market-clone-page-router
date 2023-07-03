@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Layout from "../../components/layout";
 import Button from "../../components/button";
+import TextArea from "../../components/textarea";
 
 const Upload: NextPage = () => {
   return (
@@ -31,7 +32,7 @@ const Upload: NextPage = () => {
             className="mb-1 block text-sm font-medium text-gray-700"
             htmlFor="name"
           >
-            Name
+            상품 이름
           </label>
           <div className="rounded-md relative flex  items-center shadow-sm">
             <input
@@ -47,7 +48,7 @@ const Upload: NextPage = () => {
             htmlFor="price"
             className="text-sm font-medium text-gray-700 mb-1 block"
           >
-            Price
+            가격
           </label>
           <div className="rounded-md shadow-sm relative flex items-center">
             <div className="pointer-events-none absolute left-0 pl-3 flex items-center justify-center">
@@ -57,22 +58,14 @@ const Upload: NextPage = () => {
               id="price"
               className="px-7 appearance-none w-full py-2 border border-gray-300 focus:outline-none focus:border-orange-500 focus:ring-orange-500 rounded-md shadow-sm placeholder-gray-400"
               type="text"
-              placeholder="0.00"
+              placeholder="0"
             />
             <div className="absolute pointer-events-none right-0 pr-3 flex items-center justify-center">
-              <span className="text-gray-500 text-sm">USD</span>
+              <span className="text-gray-500 text-sm">원</span>
             </div>
           </div>
         </div>
-        <div>
-          <label className="text-sm font-medium text-gray-700 mb-1 block">
-            Description
-          </label>
-          <textarea
-            rows={4}
-            className="mt-1 shadow-sm w-full focus:ring focus:ring-orange-500 rounded-md boder-gray-500 focus:border-orange-500"
-          />
-        </div>
+        <TextArea name="description" label="설명" />
         <Button text="Upload Product" />
       </div>
     </Layout>

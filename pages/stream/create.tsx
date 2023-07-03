@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Layout from "../../components/layout";
 import Button from "../../components/button";
+import TextArea from "../../components/textarea";
 
 const Create: NextPage = () => {
   return (
@@ -11,7 +12,7 @@ const Create: NextPage = () => {
             className="mb-1 block text-sm font-medium text-gray-700"
             htmlFor="name"
           >
-            Name
+            라이브 이름
           </label>
           <div className="rounded-md relative flex  items-center shadow-sm">
             <input
@@ -23,20 +24,8 @@ const Create: NextPage = () => {
           </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="description"
-            className="mb-1 block text-sm font-medium text-gray-700"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            className="mt-1 shadow-sm w-full focus:ring-orange-500 rounded-md border-gray-300 focus:border-orange-500 "
-            rows={4}
-          />
-        </div>
-        <Button text="Go Live!" />
+        <TextArea name="description" label="설명" />
+        <Button text="라이브 시작!" />
       </div>
     </Layout>
   );
