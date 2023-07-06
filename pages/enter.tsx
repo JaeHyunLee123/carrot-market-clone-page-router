@@ -29,6 +29,8 @@ const Enter = () => {
     enter(data);
   };
 
+  console.log(`loading: ${loading}, data:${data}, error:${error}`)
+
   return (
     <Layout canGoBack={true}>
       <div className="px-4">
