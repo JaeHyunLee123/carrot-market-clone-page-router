@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Button from "../components/button";
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 import Layout from "../components/layout";
 import Input from "../components/input";
 import { useForm } from "react-hook-form";
+import useMutation from "../libs/client/useMutation";
 
 interface IEnterFrom {
   email?: string;
@@ -11,6 +12,7 @@ interface IEnterFrom {
 }
 
 const Enter = () => {
+  const [enter, {loading, data, error}] = useMutation('/api/users/enter');
   const { register, reset, handleSubmit } = useForm();
   const [method, setMethod] = useState<"email" | "phone">("email");
 
@@ -24,14 +26,7 @@ const Enter = () => {
   };
 
   const onValid = (data: IEnterFrom) => {
-    fetch("/api/users/enter", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        //This header indicates that data is json and it allows to access properties of json in backend
-        "Content-Type": "application/json",
-      },
-    });
+    enter(data);
   };
 
   return (

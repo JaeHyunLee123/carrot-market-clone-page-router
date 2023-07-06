@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import client from "../../../libs/clients";
+import client from "../../../libs/server/clients";
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
