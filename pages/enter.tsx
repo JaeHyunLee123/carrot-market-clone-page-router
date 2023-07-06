@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/button";
 import { cls } from "../libs/utils";
 import Layout from "../components/layout";
 import Input from "../components/input";
+import { useForm } from "react-hook-form";
+
+interface IEnterFrom {
+  email?: string;
+  phone?: string;
+}
 
 const Enter = () => {
+  const { register, reset, handleSubmit } = useForm();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+
+  const onEmailClick = () => {
+    setMethod("email");
+    reset();
+  };
+  const onPhoneClick = () => {
+    setMethod("phone");
+    reset();
+  };
+
+  const onValid = (data: IEnterFrom) => {
+    console.log(data);
+  };
+
   return (
     <Layout canGoBack={true}>
       <div className="px-4">
@@ -40,8 +59,12 @@ const Enter = () => {
               </button>
             </div>
           </div>
-          <form className="flex flex-col mt-8 space-y-4">
+          <form
+            className="flex flex-col mt-8 space-y-4"
+            onSubmit={handleSubmit(onValid)}
+          >
             <Input
+              register={register(method, { required: true })}
               label={method === "email" ? "이메일" : "전화번호"}
               name="userauth"
               kind={method == "email" ? "email" : "phone"}
