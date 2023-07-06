@@ -24,7 +24,14 @@ const Enter = () => {
   };
 
   const onValid = (data: IEnterFrom) => {
-    console.log(data);
+    fetch("/api/users/enter", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        //This header indicates that data is json and it allows to access properties of json in backend
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
