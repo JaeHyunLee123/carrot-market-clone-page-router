@@ -1,15 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "../../../libs/server/clients";
+import withHandler from "../../../libs/server/withHandler";
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") {
-    res.status(401).end();
-  }
-
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   //TODO: Deal with data
   console.log(req.body);
 
   res.status(200).end();
 };
 
-export default handler;
+export default withHandler("POST", handler);
