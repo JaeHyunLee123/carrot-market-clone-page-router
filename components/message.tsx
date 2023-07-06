@@ -1,4 +1,4 @@
-import { cls } from "../libs/client/utils";
+import { cls } from "@libs/client/utils";
 import { useState, useEffect } from "react";
 
 interface IMessageProps {

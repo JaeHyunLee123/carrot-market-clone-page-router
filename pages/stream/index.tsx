@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import Layout from "../../components/layout";
-import FloatingButton from "../../components/floatingbutton";
+import Layout from "@components/layout";
+import FloatingButton from "@components/floatingbutton";
 import Link from "next/link";
 
 const StreamList: NextPage = () => {

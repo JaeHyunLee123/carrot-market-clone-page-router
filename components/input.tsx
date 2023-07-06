@@ -1,4 +1,4 @@
-import { cls } from "../libs/client/utils";
+import { cls } from "@libs/client/utils";
 import type { UseFormRegisterReturn } from "react-hook-form";
 
 interface IInputProps {

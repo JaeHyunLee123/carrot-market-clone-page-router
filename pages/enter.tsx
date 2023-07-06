@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Button from "../components/button";
-import { cls } from "../libs/client/utils";
-import Layout from "../components/layout";
-import Input from "../components/input";
+import Button from "@components/button";
+import { cls } from "@libs/client/utils";
+import Layout from "@components/layout";
+import Input from "@components/input";
 import { useForm } from "react-hook-form";
-import useMutation from "../libs/client/useMutation";
+import useMutation from "@libs/client/useMutation";
 
 interface IEnterFrom {
   email?: string;
