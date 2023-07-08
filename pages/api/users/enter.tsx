@@ -19,7 +19,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     update: {},
   });
 
-  console.log(user);
+  const token = await prisma.token.create({
+    data: {
+      payload: `${Math.random()}`,
+      userId: user.id,
+    },
+  });
+
+  console.log(token);
 
   res.status(200).end();
 };
