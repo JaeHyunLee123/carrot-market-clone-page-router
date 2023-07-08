@@ -12,7 +12,7 @@ interface IEnterFrom {
 }
 
 const Enter = () => {
-  const [enter, {loading, data, error}] = useMutation('/api/users/enter');
+  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
   const { register, reset, handleSubmit } = useForm();
   const [method, setMethod] = useState<"email" | "phone">("email");
 
@@ -28,8 +28,6 @@ const Enter = () => {
   const onValid = (data: IEnterFrom) => {
     enter(data);
   };
-
-  console.log(`loading: ${loading}, data:${data}, error:${error}`)
 
   return (
     <Layout canGoBack={true}>
@@ -75,7 +73,11 @@ const Enter = () => {
             />
             <Button
               text={
-                method === "email" ? "로그인 링크 받기" : "일회용 비밀번호 받기"
+                loading
+                  ? "로딩 중"
+                  : method === "email"
+                  ? "로그인 링크 받기"
+                  : "일회용 비밀번호 받기"
               }
             />
           </form>
