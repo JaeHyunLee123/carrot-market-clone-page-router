@@ -6,14 +6,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   //TODO: Deal with data
   const { phone, email } = req.body;
 
-  const payload = phone ? { phone: +phone } : { email };
+  const userInfo = phone ? { phone: +phone } : { email };
 
   const user = await prisma.user.upsert({
     where: {
-      ...payload,
+      ...userInfo,
     },
     create: {
-      ...payload,
+      ...userInfo,
       name: `당근이${Math.ceil(Math.random() * 10000)}`,
     },
     update: {},
@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const token = await prisma.token.create({
     data: {
-      payload: `${Math.random()}`,
+      payload: `${Math.floor(100000 + Math.random() * 900000)}`,
       userId: user.id,
     },
   });
