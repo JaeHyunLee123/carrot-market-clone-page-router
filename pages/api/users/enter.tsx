@@ -1,12 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@libs/server/clients";
-import withHandler from "@libs/server/withHandler";
+import withHandler, { IResposeType } from "@libs/server/withHandler";
+import twilio from "twilio";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse<IResposeType>
+) => {
   //TODO: Deal with data
   const { phone, email } = req.body;
 
-  const userInfo = phone ? { phone: +phone } : { email };
+  const userInfo = phone ? { phone: +phone } : email ? { email } : null;
+
+  if (!userInfo) return res.status(400).json({ ok: false });
 
   const user = await prisma.user.upsert({
     where: {
@@ -26,9 +34,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  console.log(token);
+  if (phone) {
+    await twilioClient.messages.create({
+      messagingServiceSid: process.env.TWILIO_MSID,
+      to: process.env.PHONE_NUMBER!,
+      body: `로그인 코드는 '${token.payload}'입니다`,
+    });
+  }
 
-  res.status(200).end();
+  return res.json({ ok: true });
 };
 
 export default withHandler("POST", handler);
