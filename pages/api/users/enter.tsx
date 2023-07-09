@@ -15,7 +15,7 @@ const handler = async (
   //TODO: Deal with data
   const { phone, email } = req.body;
 
-  const userInfo = phone ? { phone: +phone } : email ? { email } : null;
+  const userInfo = phone ? { phone } : email ? { email } : null;
 
   if (!userInfo) return res.status(400).json({ ok: false });
 
@@ -37,21 +37,20 @@ const handler = async (
     },
   });
 
-  if (phone) {
-    await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_MSID,
-      to: process.env.PHONE_NUMBER!,
-      body: `로그인 코드는 '${token.payload}'입니다`,
-    });
-  } else {
-    const email = await mail.send({
-      from: "jhyon123@gmail.com",
-      to: "jhyon123@gmail.com",
-      subject: "캐럿마켓 로그인 코드",
-      text: `로그인 코드는 '${token.payload}'입니다`,
-    });
-    console.log(email);
-  }
+  // if (phone) {
+  //   await twilioClient.messages.create({
+  //     messagingServiceSid: process.env.TWILIO_MSID,
+  //     to: process.env.PHONE_NUMBER!,
+  //     body: `로그인 코드는 '${token.payload}'입니다`,
+  //   });
+  // } else {
+  //   const email = await mail.send({
+  //     from: "jhyon123@gmail.com",
+  //     to: "jhyon123@gmail.com",
+  //     subject: "캐럿마켓 로그인 코드",
+  //     text: `로그인 코드는 '${token.payload}'입니다`,
+  //   });
+  // }
 
   return res.json({ ok: true });
 };
