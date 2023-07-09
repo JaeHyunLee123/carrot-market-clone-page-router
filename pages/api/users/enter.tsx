@@ -2,6 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@libs/server/clients";
 import withHandler, { IResposeType } from "@libs/server/withHandler";
 import twilio from "twilio";
+import mail from "@sendgrid/mail";
+
+mail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
@@ -40,6 +43,14 @@ const handler = async (
       to: process.env.PHONE_NUMBER!,
       body: `로그인 코드는 '${token.payload}'입니다`,
     });
+  } else {
+    const email = await mail.send({
+      from: "jhyon123@gmail.com",
+      to: "jhyon123@gmail.com",
+      subject: "캐럿마켓 로그인 코드",
+      text: `로그인 코드는 '${token.payload}'입니다`,
+    });
+    console.log(email);
   }
 
   return res.json({ ok: true });
