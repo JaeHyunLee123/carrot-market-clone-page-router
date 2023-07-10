@@ -12,7 +12,6 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<IResposeType>
 ) => {
-  //TODO: Deal with data
   const { phone, email } = req.body;
 
   const userInfo = phone ? { phone } : email ? { email } : null;

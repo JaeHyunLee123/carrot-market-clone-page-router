@@ -6,14 +6,32 @@ import Input from "@components/input";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 
-interface IEnterFrom {
+interface IEnterForm {
   email?: string;
   phone?: string;
 }
 
+interface ITokenForm {
+  verification: string;
+}
+
+interface IMutationResult {
+  ok: boolean;
+}
+
 const Enter = () => {
-  const [enter, { loading, data, error }] = useMutation("/api/users/enter");
-  const { register, reset, handleSubmit } = useForm();
+  const [enter, { loading, data, error }] =
+    useMutation<IMutationResult>("/api/users/enter");
+  const [confirmToken, { loading: tokenLoading, data: tokenData }] =
+    useMutation<IMutationResult>("/api/users/confirm");
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+  } = useForm<IEnterForm>();
+  const { register: tokentRegister, handleSubmit: tokenHandleSumbit } =
+    useForm<ITokenForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
 
   const onEmailClick = () => {
@@ -25,9 +43,17 @@ const Enter = () => {
     reset();
   };
 
-  const onValid = (data: IEnterFrom) => {
+  const onValid = (data: IEnterForm) => {
+    if (loading) return;
     enter(data);
   };
+
+  const onTokenValid = (data: ITokenForm) => {
+    if (tokenLoading) return;
+    confirmToken(data);
+  };
+
+  console.log(data);
 
   return (
     <Layout canGoBack={true}>
@@ -119,6 +145,32 @@ const Enter = () => {
           </div>
         </div>
       </div>
+
+      {isSubmitSuccessful ? (
+        <div className="border border-orange-500 rounded-md px-4 py-2 fixed top-10 w-4/5 bg-white h-3/5 flex flex-col justify-center">
+          <button
+            onClick={() => {
+              reset();
+            }}
+            className="border border-orange-500 rounded-full fixed w-8 aspect-square top-14 right-20 cursor-pointer"
+          >
+            X
+          </button>
+          <form
+            className="flex flex-col mt-8 space-y-4"
+            onSubmit={tokenHandleSumbit(onTokenValid)}
+          >
+            <Input
+              register={tokentRegister("verification", { required: true })}
+              label="인증번호"
+              name="verification"
+              kind="text"
+              type="number"
+            />
+            <Button text={tokenLoading ? "로딩중" : "인증하기"} />
+          </form>
+        </div>
+      ) : null}
     </Layout>
   );
 };
