@@ -5,6 +5,8 @@ import Layout from "@components/layout";
 import Input from "@components/input";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/router";
 
 interface IEnterForm {
   email?: string;
@@ -33,6 +35,7 @@ const Enter = () => {
   const { register: tokentRegister, handleSubmit: tokenHandleSumbit } =
     useForm<ITokenForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
+  const router = useRouter();
 
   const onEmailClick = () => {
     setMethod("email");
@@ -52,6 +55,13 @@ const Enter = () => {
     if (tokenLoading) return;
     confirmToken(data);
   };
+
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push("/");
+    }
+  }, [tokenData, router]);
+
   return (
     <Layout canGoBack={true}>
       <div className="px-4">
