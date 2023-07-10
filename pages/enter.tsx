@@ -52,9 +52,6 @@ const Enter = () => {
     if (tokenLoading) return;
     confirmToken(data);
   };
-
-  console.log(data);
-
   return (
     <Layout canGoBack={true}>
       <div className="px-4">
