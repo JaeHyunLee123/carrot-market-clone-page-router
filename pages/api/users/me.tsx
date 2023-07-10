@@ -13,24 +13,16 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<IResposeType>
 ) => {
-  const { verification } = req.body;
-
-  const token = await prisma.token.findUnique({
+  const profile = await prisma.user.findUnique({
     where: {
-      payload: verification,
+      id: req.session.user?.id,
     },
   });
 
-  if (!token) return res.status(404).end();
-
-  req.session.user = {
-    id: token?.userId,
-  };
-  await req.session.save();
-  res.status(200).end();
+  res.status(200).json({ ok: true, profile });
 };
 
-export default withIronSessionApiRoute(withHandler("POST", handler), {
+export default withIronSessionApiRoute(withHandler("GET", handler), {
   cookieName: "carrotsession",
   password: "123123489065723904572389457803y7890375639254789031231231",
 });
