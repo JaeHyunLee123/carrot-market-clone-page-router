@@ -2,16 +2,16 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 const useUser = () => {
-  const { data, error } = useSWR("/api/users/me", fetcher);
+  const { data, error } = useSWR("/api/users/me");
 
   const router = useRouter();
 
-  if (!data.ok) return router.replace("/enter");
+  useEffect(() => {
+    if (data && !data.ok) router.replace("/enter");
+  }, [data, router]);
 
-  return data;
+  return { user: data?.profile, isLoading: !data && !error };
 };
 
 export default useUser;
