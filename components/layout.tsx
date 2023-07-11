@@ -48,7 +48,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
           <div className="w-1/3" />
         )}
         <div className="w-1/3">
-          <Link href="/enter"><span className="text-xs">로그인</span></Link>
+          {/* <Link href="/enter"><span className="text-xs">로그인</span></Link> */}
         </div>
       </header>
       <div className={cls("pt-16", hasTabBar ? "pb-26" : "")}>{children}</div>
