@@ -22,9 +22,8 @@ interface IMutationResult {
 }
 
 const Enter = () => {
-  const [enter, { loading, data, error }] =
-    useMutation<IMutationResult>("/api/users/enter");
-  const [confirmToken, { loading: tokenLoading, data: tokenData }] =
+  const [enter, { loading }] = useMutation<IMutationResult>("/api/users/enter");
+  const [confirmToken, { loading: tokenLoading, result: tokenMutationResult }] =
     useMutation<IMutationResult>("/api/users/confirm");
   const {
     register,
@@ -57,10 +56,10 @@ const Enter = () => {
   };
 
   useEffect(() => {
-    if (tokenData?.ok) {
+    if (tokenMutationResult?.ok) {
       router.push("/");
     }
-  }, [tokenData, router]);
+  }, [tokenMutationResult, router]);
 
   return (
     <Layout canGoBack={true}>

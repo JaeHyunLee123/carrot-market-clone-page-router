@@ -1,10 +1,12 @@
-import type { NextPage } from "next";
 import Layout from "@components/layout";
 import Button from "@components/button";
 import TextArea from "@components/textarea";
 import Input from "@components/input";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import useUser from "@libs/client/useUser";
 
 interface IUploadItemForm {
   name: string;
@@ -12,14 +14,28 @@ interface IUploadItemForm {
   description: string;
 }
 
-const Upload: NextPage = () => {
+interface IUploadItemMutation {
+  ok: boolean;
+  itemId: number;
+}
+
+const Upload = () => {
+  useUser();
   const { register, handleSubmit } = useForm<IUploadItemForm>();
-  const [uploadItem, { loading, data }] = useMutation("/api/items");
+  const [uploadItem, { loading, result }] =
+    useMutation<IUploadItemMutation>("/api/items/upload");
+  const router = useRouter();
 
   const onValid = (itemData: IUploadItemForm) => {
     if (loading) return;
     uploadItem(itemData);
   };
+
+  useEffect(() => {
+    if (result?.ok) {
+      router.replace(`/item/${result.itemId}`);
+    }
+  }, [result, router]);
 
   return (
     <Layout canGoBack={true}>

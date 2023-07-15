@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface IUseMutationState<T> {
   loading: boolean;
-  data?: T | undefined;
+  result?: T | undefined;
   error?: object | undefined;
 }
 
@@ -10,7 +10,7 @@ type UseMutationResult<T> = [(data: any) => void, IUseMutationState<T>];
 
 const useMutation = <T = any,>(url: string): UseMutationResult<T> => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<T | any>(undefined);
+  const [result, setData] = useState<T | any>(undefined);
   const [error, setError] = useState<undefined | any>(undefined);
 
   const mutate = (data: any) => {
@@ -28,7 +28,7 @@ const useMutation = <T = any,>(url: string): UseMutationResult<T> => {
       .finally(() => setLoading(false));
   };
 
-  return [mutate, { loading, data, error }];
+  return [mutate, { loading, result, error }];
 };
 
 export default useMutation;
