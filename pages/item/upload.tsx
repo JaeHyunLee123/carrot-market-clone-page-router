@@ -23,7 +23,7 @@ const Upload = () => {
   useUser();
   const { register, handleSubmit } = useForm<IUploadItemForm>();
   const [uploadItem, { loading, result }] =
-    useMutation<IUploadItemMutation>("/api/items/upload");
+    useMutation<IUploadItemMutation>("/api/items");
   const router = useRouter();
 
   const onValid = (itemData: IUploadItemForm) => {

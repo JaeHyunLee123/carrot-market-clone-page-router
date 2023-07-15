@@ -8,14 +8,14 @@ export interface IResposeType {
 type Method = "GET" | "POST" | "DELETE";
 
 interface IConfig {
-  method: Method;
+  methods: Method[];
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivate?: boolean;
 }
 
-const withHandler = ({ method, handler, isPrivate = true }: IConfig) => {
+const withHandler = ({ methods, handler, isPrivate = true }: IConfig) => {
   const returnFunction = async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method !== method) {
+    if (!(req.method && methods.includes(req.method as any))) {
       return res.status(405).end();
     }
 

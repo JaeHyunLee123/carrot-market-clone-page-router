@@ -3,19 +3,29 @@ import Layout from "@components/layout";
 import FloatingButton from "@components/floatingbutton";
 import Item from "@components/item";
 import useUser from "@libs/client/useUser";
+import useSWR from "swr";
+import { Item as IItem } from "@prisma/client";
+
+interface IItemResponse {
+  ok: boolean;
+  items?: IItem[];
+}
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
+  const { data } = useSWR<IItemResponse>("/api/items");
+
+  console.log(data);
 
   return (
     <Layout title="홈" hasTabBar={true}>
       <div className="flex flex-col space-y-5 px-4">
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+        {data?.items?.map((item) => (
           <Item
-            key={i}
-            id={1}
-            title="맥북 에어"
-            price={1000000}
+            key={item.id}
+            id={item.id}
+            title={item.name}
+            price={item.price}
             comments={5}
             hearts={10}
           />
