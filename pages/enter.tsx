@@ -46,14 +46,14 @@ const Enter = () => {
     reset();
   };
 
-  const onValid = (data: IEnterForm) => {
+  const onValid = (enterData: IEnterForm) => {
     if (loading) return;
-    enter(data);
+    enter(enterData);
   };
 
-  const onTokenValid = (data: ITokenForm) => {
+  const onTokenValid = (tokenData: ITokenForm) => {
     if (tokenLoading) return;
-    confirmToken(data);
+    confirmToken(tokenData);
   };
 
   useEffect(() => {

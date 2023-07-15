@@ -1,13 +1,21 @@
 import { cls } from "@libs/client/utils";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface ITextAreaProps {
   label?: string;
   name?: string;
   placeholder?: string;
+  register?: UseFormRegisterReturn;
   [key: string]: any;
 }
 
-const TextArea = ({ label, name, placeholder, ...rest }: ITextAreaProps) => {
+const TextArea = ({
+  label,
+  name,
+  placeholder,
+  register,
+  ...rest
+}: ITextAreaProps) => {
   return (
     <div>
       {label ? (
@@ -19,6 +27,7 @@ const TextArea = ({ label, name, placeholder, ...rest }: ITextAreaProps) => {
         </label>
       ) : null}
       <textarea
+        {...register}
         id={name}
         className={cls(
           "mt-1 shadow-sm w-full  rounded-md border-gray-300 text-sm",

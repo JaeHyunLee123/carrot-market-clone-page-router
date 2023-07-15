@@ -3,11 +3,30 @@ import Layout from "@components/layout";
 import Button from "@components/button";
 import TextArea from "@components/textarea";
 import Input from "@components/input";
+import { useForm } from "react-hook-form";
+import useMutation from "@libs/client/useMutation";
+
+interface IUploadItemForm {
+  name: string;
+  price: number;
+  description: string;
+}
 
 const Upload: NextPage = () => {
+  const { register, handleSubmit } = useForm<IUploadItemForm>();
+  const [uploadItem, { loading, data }] = useMutation("/api/items");
+
+  const onValid = (itemData: IUploadItemForm) => {
+    if (loading) return;
+    uploadItem(itemData);
+  };
+
   return (
     <Layout canGoBack={true}>
-      <div className="px-4 flex flex-col space-y-4">
+      <form
+        onSubmit={handleSubmit(onValid)}
+        className="px-4 flex flex-col space-y-4"
+      >
         <div>
           <label className="cursor-pointer w-full flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md text-gray-600 hover:text-orange-500 hover:border-orange-500">
             <svg
@@ -28,11 +47,25 @@ const Upload: NextPage = () => {
             <input className="hidden" type="file" />
           </label>
         </div>
-        <Input label="상품 이름" name="product" kind="text" />
-        <Input label="가격" name="price" kind="price" />
-        <TextArea name="description" label="설명" />
-        <Button text="상품 팔기" />
-      </div>
+        <Input
+          register={register("name", { required: true })}
+          label="상품 이름"
+          name="product"
+          kind="text"
+        />
+        <Input
+          register={register("price", { required: true })}
+          label="가격"
+          name="price"
+          kind="price"
+        />
+        <TextArea
+          register={register("description", { required: true })}
+          name="description"
+          label="설명"
+        />
+        <Button text={loading ? "로딩 중" : "상품 팔기"} />
+      </form>
     </Layout>
   );
 };
