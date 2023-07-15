@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@libs/server/clients";
+import prisma from "@libs/server/prismaClients";
 import withHandler, { IResposeType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 
