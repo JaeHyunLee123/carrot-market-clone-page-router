@@ -10,7 +10,7 @@ type Method = "GET" | "POST" | "DELETE";
 interface IConfig {
   method: Method;
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
-  isPrivate: boolean;
+  isPrivate?: boolean;
 }
 
 const withHandler = ({ method, handler, isPrivate = true }: IConfig) => {
