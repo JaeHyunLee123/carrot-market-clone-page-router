@@ -1,33 +1,53 @@
 import type { NextPage } from "next";
-
+import useSWR from "swr";
 import Layout from "@components/layout";
+import { useRouter } from "next/router";
+import { Item } from "@prisma/client";
+import Link from "next/link";
+
+interface IItemWithUserInfo extends Item {
+  user: { id: number; name: string };
+}
+
+interface IItemInformation {
+  ok: boolean;
+  item?: IItemWithUserInfo;
+}
 
 const ItemDetail: NextPage = () => {
+  const router = useRouter();
+
+  const { data } = useSWR<IItemInformation>(
+    router.query.id ? `/api/items/${router.query.id}` : null
+  );
+
+  console.log(data);
+
   return (
-    <Layout canGoBack={true} title="갤럭시 S50">
+    <Layout canGoBack={true} title={data?.item?.name}>
       <div className="flex flex-col px-4">
         <div>
           <div className="w-full h-96 bg-gray-400" />
           <div className="flex  cursor-pointer mt-5 border-b pb-4 items-center space-x-4">
             <div className="w-12 aspect-square rounded-full bg-gray-400" />
             <div>
-              <p className="font-medium text-gray-700">Steve Jebs</p>
-              <p className="text-sm text-gray-600">View profile &rarr;</p>
+              <p className="font-medium text-gray-700">
+                {data?.item?.user?.name}
+              </p>
+              <Link
+                href={`/proflie/${data?.item?.user?.id}`}
+                className="text-sm text-gray-600"
+              >
+                View profile &rarr;
+              </Link>
             </div>
           </div>
           <div className="mt-5">
-            <h1 className="font-semibold text-4xl text-gray-900">갤럭시 S50</h1>
-            <p className="mt-1 text-2xl text-gray-900">$140</p>
-            <p className="mt-3 text-gray-900">
-              My money&apos;s in that office, right? If she start giving me some
-              bullshit about it ain&apos;t there, and we got to go someplace
-              else and get it, I&apos;m gonna shoot you in the head then and
-              there. Then I&apos;m gonna shoot that bitch in the kneecaps, find
-              out where my goddamn money is. She gonna tell me too. Hey, look at
-              me when I&apos;m talking to you, motherfucker. You listen: we go
-              in there, and that ni**a Winston or anybody else is in there, you
-              the first motherfucker to get shot. You understand?
-            </p>
+            <h1 className="font-semibold text-4xl text-gray-900">
+              {data?.item?.name}
+            </h1>
+            <p className="mt-1 text-2xl text-gray-900">{`$${data?.item?.price}`}</p>
+            <p className="mt-3 text-gray-900">{data?.item?.description}</p>
             <div className="mt-4 flex justify-between">
               <div className="w-1/6" />
               <button className="w-4/6 px-4 py-2 rounded-md font-medium hover:bg-orange-600 focus:ring ring-offset-2 ring-orange-500 hover:ring-orange-600 bg-orange-500 text-white">
