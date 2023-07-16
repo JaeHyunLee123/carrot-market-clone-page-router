@@ -29,7 +29,15 @@ const handler = async (
 
     return res.status(200).json({ ok: true, itemId: item.id });
   } else if (req.method === "GET") {
-    const items = await prisma.item.findMany({});
+    const items = await prisma.item.findMany({
+      include: {
+        _count: {
+          select: {
+            favorites: true,
+          },
+        },
+      },
+    });
     return res.status(200).json({ ok: true, items });
   }
 };

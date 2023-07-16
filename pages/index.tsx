@@ -6,9 +6,13 @@ import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { Item as IItem } from "@prisma/client";
 
+interface IItemWithFavs extends IItem {
+  _count: { favorites: number };
+}
+
 interface IItemResponse {
   ok: boolean;
-  items?: IItem[];
+  items?: IItemWithFavs[];
 }
 
 const Home: NextPage = () => {
@@ -26,8 +30,8 @@ const Home: NextPage = () => {
             id={item.id}
             title={item.name}
             price={item.price}
-            comments={5}
-            hearts={10}
+            comments={0}
+            hearts={item._count.favorites}
           />
         ))}
         <FloatingButton href="/item/upload">
