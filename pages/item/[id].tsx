@@ -4,6 +4,8 @@ import Layout from "@components/layout";
 import { useRouter } from "next/router";
 import { Item } from "@prisma/client";
 import Link from "next/link";
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
 
 interface IItemWithUserInfo extends Item {
   user: { id: number; name: string };
@@ -13,14 +15,19 @@ interface IItemResponse {
   ok: boolean;
   item?: IItemWithUserInfo;
   relatedItems?: Item[];
+  isFavorite?: boolean;
 }
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-
   const { data } = useSWR<IItemResponse>(
     router.query.id ? `/api/items/${router.query.id}` : null
   );
+  const [toggleFav] = useMutation(`/api/items/${router.query.id}/favorites`);
+
+  const onFavoriteClick = () => {
+    toggleFav({});
+  };
 
   console.log(data);
 
@@ -54,11 +61,19 @@ const ItemDetail: NextPage = () => {
               <button className="w-4/6 px-4 py-2 rounded-md font-medium hover:bg-orange-600 focus:ring ring-offset-2 ring-orange-500 hover:ring-orange-600 bg-orange-500 text-white">
                 Talk to seller
               </button>
-              <button className="w-1/6 flex justify-center items-center text-gray-400 hover:text-gray-500">
+              <button
+                onClick={onFavoriteClick}
+                className={cls(
+                  "w-1/6 flex justify-center items-center cursor-pointer",
+                  data?.isFavorite
+                    ? "text-red-500 hover:text-red-600"
+                    : "text-gray-400 hover:text-gray-500"
+                )}
+              >
                 <svg
-                  className="h-6 w-6 "
+                  className="h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
+                  fill={data?.isFavorite ? "currentColor" : "none"}
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   aria-hidden="true"

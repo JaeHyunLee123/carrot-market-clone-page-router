@@ -7,9 +7,12 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<IResposeType>
 ) => {
-  const { id } = req.query;
+  const {
+    query: { id },
+    session: { user },
+  } = req;
 
-  if (!id) return res.status(400).json({ ok: false });
+  if (!(id && user)) return res.status(400).json({ ok: false });
 
   const item = await prisma.item.findUnique({
     where: {
@@ -44,7 +47,17 @@ const handler = async (
     take: 4,
   });
 
-  return res.json({ ok: true, item, relatedItems });
+  const isFavorite = !!(await prisma.favorite.findFirst({
+    where: {
+      userId: user.id,
+      itemId: +id.toString(),
+    },
+    select: {
+      id: true,
+    },
+  }));
+
+  return res.json({ ok: true, item, relatedItems, isFavorite });
 };
 
 export default withApiSession(
