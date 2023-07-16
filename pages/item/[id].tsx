@@ -20,16 +20,18 @@ interface IItemResponse {
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR<IItemResponse>(
+  const { data, mutate } = useSWR<IItemResponse>(
     router.query.id ? `/api/items/${router.query.id}` : null
   );
-  const [toggleFav] = useMutation(`/api/items/${router.query.id}/favorites`);
+  const [toggleFav, { loading }] = useMutation(
+    `/api/items/${router.query.id}/favorites`
+  );
 
   const onFavoriteClick = () => {
+    if (loading || !data) return;
     toggleFav({});
+    mutate({ ...data, isFavorite: !data.isFavorite }, false);
   };
-
-  console.log(data);
 
   return (
     <Layout canGoBack={true} title={data?.item?.name}>
