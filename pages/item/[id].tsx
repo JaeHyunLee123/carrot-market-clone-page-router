@@ -9,15 +9,16 @@ interface IItemWithUserInfo extends Item {
   user: { id: number; name: string };
 }
 
-interface IItemInformation {
+interface IItemResponse {
   ok: boolean;
   item?: IItemWithUserInfo;
+  relatedItems?: Item[];
 }
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
 
-  const { data } = useSWR<IItemInformation>(
+  const { data } = useSWR<IItemResponse>(
     router.query.id ? `/api/items/${router.query.id}` : null
   );
 
@@ -25,7 +26,7 @@ const ItemDetail: NextPage = () => {
 
   return (
     <Layout canGoBack={true} title={data?.item?.name}>
-      <div className="flex flex-col px-4">
+      <div className="flex flex-col px-4 mb-10">
         <div>
           <div className="w-full h-96 bg-gray-400" />
           <div className="flex  cursor-pointer mt-5 border-b pb-4 items-center space-x-4">
@@ -46,7 +47,7 @@ const ItemDetail: NextPage = () => {
             <h1 className="font-semibold text-4xl text-gray-900">
               {data?.item?.name}
             </h1>
-            <p className="mt-1 text-2xl text-gray-900">{`$${data?.item?.price}`}</p>
+            <p className="mt-1 text-2xl text-gray-900">{`${data?.item?.price.toLocaleString()}원`}</p>
             <p className="mt-3 text-gray-900">{data?.item?.description}</p>
             <div className="mt-4 flex justify-between">
               <div className="w-1/6" />
@@ -76,12 +77,12 @@ const ItemDetail: NextPage = () => {
         <div className="mt-10">
           <h2 className="font-semibold text-3xl">Similar items</h2>
           <div className="grid grid-cols-2 gap-5">
-            {[1, 2, 3, 4, 5, 6].map((_, i) => (
-              <div key={i}>
+            {data?.relatedItems?.map((item) => (
+              <Link href={`/item/${item.id}`} key={item.id}>
                 <div className="w-30 aspect-square bg-gray-400" />
-                <h3 className="text-sm text-gray-500">Galaxy S60</h3>
-                <p className="text-xs font-semibold text-gray-900">$6</p>
-              </div>
+                <h3 className="text-sm text-gray-500">{item.name}</h3>
+                <p className="text-xs font-semibold text-gray-900">{`${item.price.toLocaleString()}원`}</p>
+              </Link>
             ))}
           </div>
         </div>

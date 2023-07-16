@@ -28,7 +28,23 @@ const handler = async (
 
   if (!item) return res.status(404).json({ ok: false });
 
-  return res.json({ ok: true, item });
+  const terms = item.name.split(" ").map((word) => ({
+    name: {
+      contains: word,
+    },
+  }));
+
+  const relatedItems = await prisma.item.findMany({
+    where: {
+      OR: terms,
+      AND: {
+        NOT: { id: item.id },
+      },
+    },
+    take: 4,
+  });
+
+  return res.json({ ok: true, item, relatedItems });
 };
 
 export default withApiSession(
