@@ -7,9 +7,12 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<IResposeType>
 ) => {
-  const { id } = req.query;
+  const {
+    query: { id },
+    session: { user },
+  } = req;
 
-  if (!id) return res.status(400).json({ ok: false });
+  if (!(id && user)) return res.status(400).json({ ok: false });
 
   const post = await prisma.post.findUnique({
     where: {
@@ -45,7 +48,19 @@ const handler = async (
     },
   });
 
-  return res.json({ ok: true, post });
+  if (!post) return res.status(404).json({ ok: false });
+
+  const isWondering = Boolean(
+    await prisma.wondering.findFirst({
+      where: {
+        postId: post.id,
+        userId: user.id,
+      },
+      select: { id: true },
+    })
+  );
+
+  return res.json({ ok: true, post, isWondering });
 };
 
 export default withApiSession(
