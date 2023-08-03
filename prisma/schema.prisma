@@ -12,18 +12,21 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  name      String
-  phone     String?     @unique
-  email     String?  @unique
-  avatar    String?
-  
-  tokens    Token[]
-  items     Item[]
-  favorites Favorite[]
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+   
+  name       String
+  phone      String?     @unique
+  email      String?  @unique
+  avatar     String?
+   
+  tokens     Token[]
+  items      Item[]
+  favorites  Favorite[]
+  posts      Post[]
+  answers    Answer[]
+  wonderings Wondering[]
 }
 
 model Token{
@@ -70,4 +73,53 @@ model Favorite{
 
   @@index([userId])
   @@index([itemId])
+}
+
+model Post{
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  question    String   @db.MediumText
+
+  user        User     @relation(fields:[userId], references: [id], onDelete: Cascade)
+  userId      Int
+
+
+  answers     Answer[]
+  wonderings  Wondering[]
+
+  @@index([userId])
+}
+
+model Answer{
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  answer      String   @db.MediumText
+
+  user        User     @relation(fields:[userId], references: [id], onDelete: Cascade)
+  userId      Int
+
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId      Int
+
+  @@index([userId])
+  @@index([postId])
+}
+
+model Wondering{
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields:[userId], references: [id], onDelete: Cascade)
+  userId      Int
+
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId      Int
+
+  @@index([userId])
+  @@index([postId])
 }
