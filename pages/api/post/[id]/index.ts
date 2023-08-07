@@ -39,6 +39,9 @@ const handler = async (
             },
           },
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       },
       _count: {
         select: {
