@@ -8,6 +8,8 @@ import { Answer, Post, User } from "@prisma/client";
 import Link from "next/link";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 interface IAnswerWithUser extends Answer {
   user: User;
@@ -28,12 +30,22 @@ interface ICommunityPostResponse {
   isWondering?: boolean;
 }
 
+interface ICommunityAnswerForm {
+  answer: string;
+}
+
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
   const { data, mutate } = useSWR<ICommunityPostResponse>(
     router.query.id ? `/api/post/${router.query.id}` : null
   );
-  const [wonder] = useMutation(`/api/post/${router.query.id}/wonder`);
+  const [wonder, { loading: wonderLoading }] = useMutation(
+    `/api/post/${router.query.id}/wonder`
+  );
+  const [sendAnswer, { result, loading: answerLoading }] = useMutation<{
+    ok: boolean;
+  }>(`/api/post/${router.query.id}/answer`);
+  const { register, handleSubmit, reset } = useForm<ICommunityAnswerForm>();
 
   const onWonderClick = () => {
     if (!(data && data.post)) return;
@@ -53,8 +65,20 @@ const CommunityPostDetail: NextPage = () => {
       },
       false
     );
-    wonder({});
+    if (!wonderLoading) wonder({});
   };
+
+  const onValid = (data: ICommunityAnswerForm) => {
+    if (answerLoading) return;
+    sendAnswer(data);
+  };
+
+  useEffect(() => {
+    if (result && result.ok) {
+      reset();
+      mutate();
+    }
+  }, [result, reset, mutate]);
 
   return (
     <Layout canGoBack={true}>
@@ -132,17 +156,24 @@ const CommunityPostDetail: NextPage = () => {
                   {answer.user.name}
                 </span>
                 <span className="text-xs text-gray-500 block ">
-                  {answer.createdAt.toDateString()}
+                  {`${answer.createdAt}`}
                 </span>
                 <p className="text-gray-700 mt-2">{answer.answer}</p>
               </div>
             </div>
           ))}
         </div>
-        <div className="px-4">
-          <TextArea placeholder="댓글" />
-          <Button text="Reply" />
-        </div>
+        <form onSubmit={handleSubmit(onValid)} className="px-4">
+          <TextArea
+            placeholder="댓글"
+            register={register("answer", {
+              required: true,
+              minLength: 5,
+              maxLength: 300,
+            })}
+          />
+          <Button text={answerLoading ? "로딩중" : "댓글 달기"} />
+        </form>
       </div>
     </Layout>
   );

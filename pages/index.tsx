@@ -19,8 +19,6 @@ const Home: NextPage = () => {
   const { user, isLoading } = useUser();
   const { data } = useSWR<IItemResponse>("/api/items");
 
-  console.log(data);
-
   return (
     <Layout title="홈" hasTabBar={true}>
       <div className="flex flex-col space-y-5 px-4">
