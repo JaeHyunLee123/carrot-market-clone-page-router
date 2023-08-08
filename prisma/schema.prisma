@@ -120,6 +120,7 @@ model Review {
   updatedAt DateTime @updatedAt
 
   review String @db.MediumText
+  score  Int    @default(3)
 
   reviewedBy   User @relation(fields: [reviewedById], references: [id], onDelete: Cascade, name: "writtenReviews")
   reviewedById Int
