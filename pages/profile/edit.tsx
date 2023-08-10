@@ -5,11 +5,18 @@ import Input from "@components/input";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import useMutation from "@libs/client/useMutation";
 
 interface IEditProfileForm {
   email?: string;
   phone?: string;
   formError?: string;
+  name?: string;
+}
+
+interface IEditProfileResponse {
+  ok: boolean;
+  error?: string;
 }
 
 const EditProfile: NextPage = () => {
@@ -21,19 +28,29 @@ const EditProfile: NextPage = () => {
     setError,
     formState: { errors },
   } = useForm<IEditProfileForm>();
+  const [editProfile, { result, loading }] =
+    useMutation<IEditProfileResponse>("/api/users/me");
 
   useEffect(() => {
+    setValue("name", user?.name);
     if (user?.email) setValue("email", user?.email);
     if (user?.phone) setValue("phone", user?.phone);
   }, [user, setValue]);
 
-  const onValid = (form: IEditProfileForm) => {
-    console.log(form);
-    if (!(form.email || form.phone)) {
+  useEffect(() => {
+    if (result && !result.ok) {
+      setError("formError", { message: result.error });
+    }
+  }, [result, setError]);
+
+  const onValid = ({ email, phone, name }: IEditProfileForm) => {
+    if (loading) return;
+    if (!(email || phone || name)) {
       setError("formError", {
-        message: "이메일과 전화번호 중 하나는 적어야 합니다",
+        message: "업데이트 요소 중 하나는 적어야 합니다",
       });
     }
+    editProfile({ email, phone, name });
   };
 
   return (
@@ -61,6 +78,13 @@ const EditProfile: NextPage = () => {
         </div>
 
         <Input
+          name="name"
+          label="닉네임"
+          kind="text"
+          required={false}
+          register={register("name")}
+        />
+        <Input
           name="email"
           label="이메일"
           kind="email"
@@ -79,7 +103,7 @@ const EditProfile: NextPage = () => {
             {errors.formError.message}
           </span>
         ) : null}
-        <Button text="프로필 업데이트" />
+        <Button text={loading ? "로딩중" : "프로필 업데이트"} />
       </form>
     </Layout>
   );
