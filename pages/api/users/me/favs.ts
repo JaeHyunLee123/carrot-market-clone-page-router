@@ -13,16 +13,24 @@ const handler = async (
 
   if (!user) return res.status(400).json({ ok: false });
 
-  const favorites = await prisma.favorite.findMany({
+  const favs = await prisma.favorite.findMany({
     where: {
       userId: user.id,
     },
     include: {
-      item: true,
+      item: {
+        include: {
+          _count: {
+            select: {
+              favorites: true,
+            },
+          },
+        },
+      },
     },
   });
 
-  res.status(200).json({ ok: true, favorites });
+  res.status(200).json({ ok: true, favs });
 };
 
 export default withApiSession(

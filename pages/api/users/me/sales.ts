@@ -18,7 +18,15 @@ const handler = async (
       sellerId: user.id,
     },
     include: {
-      item: true,
+      item: {
+        include: {
+          _count: {
+            select: {
+              favorites: true,
+            },
+          },
+        },
+      },
     },
   });
 

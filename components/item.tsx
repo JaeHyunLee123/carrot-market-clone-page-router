@@ -4,11 +4,10 @@ interface IItemProps {
   title: string;
   id: number;
   price: number;
-  comments: number;
   hearts: number;
 }
 
-const Item = ({ title, id, price, comments, hearts }: IItemProps) => {
+const Item = ({ title, id, price, hearts }: IItemProps) => {
   return (
     <Link
       href={`/item/${id}`}
@@ -41,7 +40,7 @@ const Item = ({ title, id, price, comments, hearts }: IItemProps) => {
           </svg>
           <span>{hearts}</span>
         </div>
-        <div className="flex items-center text-sm text-gray-500 space-x-0.5">
+        {/* <div className="flex items-center text-sm text-gray-500 space-x-0.5">
           <svg
             className="w-4 h-4"
             fill="none"
@@ -57,7 +56,7 @@ const Item = ({ title, id, price, comments, hearts }: IItemProps) => {
             ></path>
           </svg>
           <span>{comments}</span>
-        </div>
+        </div> */}
       </div>
     </Link>
   );
