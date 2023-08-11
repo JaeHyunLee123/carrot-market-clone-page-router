@@ -38,16 +38,28 @@ const StreamDetail: NextPage = () => {
   );
 
   const onValid = (form: IMessageForm) => {
-    if (isLoading) return;
+    if (isLoading || !user) return;
     reset();
+    mutate(
+      (prev) =>
+        prev && {
+          ...prev,
+          stream: {
+            ...prev.stream,
+            messages: [
+              ...prev.stream.messages,
+              {
+                message: form.message,
+                user: { id: user.id, avatar: user.avatar || undefined },
+                id: Date.now(),
+              },
+            ],
+          },
+        },
+      false
+    );
     sendMessage(form);
   };
-
-  useEffect(() => {
-    if (result && result.ok) {
-      mutate();
-    }
-  }, [result, mutate]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
