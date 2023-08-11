@@ -51,7 +51,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
           {/* <Link href="/enter"><span className="text-xs">로그인</span></Link> */}
         </div>
       </header>
-      <div className={cls("pt-16", hasTabBar ? "pb-26" : "")}>{children}</div>
+      <div className={cls("pt-16", hasTabBar ? "pb-40" : "")}>{children}</div>
 
       {hasTabBar ? (
         <nav className="max-w-lg bg-white w-full text-lg pb-10 pt-3 fixed text-gray-800 border-t bottom-0 flex items-center justify-around ">

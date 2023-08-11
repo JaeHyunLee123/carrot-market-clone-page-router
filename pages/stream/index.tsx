@@ -4,6 +4,7 @@ import FloatingButton from "@components/floatingbutton";
 import Link from "next/link";
 import useSWR from "swr";
 import { Stream } from "@prisma/client";
+import { useState } from "react";
 
 interface IStreamsResponse {
   ok: boolean;
@@ -11,10 +12,30 @@ interface IStreamsResponse {
 }
 
 const StreamList: NextPage = () => {
-  const { data } = useSWR<IStreamsResponse>("/api/stream");
+  const [page, setPage] = useState(1);
+  const { data } = useSWR<IStreamsResponse>(`/api/stream?page=${page}`);
 
   return (
     <Layout title="라이브" hasTabBar={true}>
+      <div className="flex justify-around">
+        <button
+          className="cursor-pointer"
+          disabled={page === 1}
+          onClick={() => {
+            setPage((prev) => prev - 1);
+          }}
+        >
+          {page !== 1 ? "<-" : ""}
+        </button>
+        <button
+          className="cursor-pointer"
+          onClick={() => {
+            setPage((prev) => prev + 1);
+          }}
+        >
+          {"->"}
+        </button>
+      </div>
       <div className="px-4">
         <div className="flex flex-col space-y-4">
           {data?.streams.map((stream) => (
