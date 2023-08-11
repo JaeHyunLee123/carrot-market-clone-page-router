@@ -22,12 +22,12 @@ interface IUploadItemMutation {
 const Upload = () => {
   useUser();
   const { register, handleSubmit } = useForm<IUploadItemForm>();
-  const [uploadItem, { loading, result }] =
+  const [uploadItem, { isLoading, result }] =
     useMutation<IUploadItemMutation>("/api/items");
   const router = useRouter();
 
   const onValid = (itemData: IUploadItemForm) => {
-    if (loading) return;
+    if (isLoading) return;
     uploadItem(itemData);
   };
 
@@ -80,7 +80,7 @@ const Upload = () => {
           name="description"
           label="설명"
         />
-        <Button text={loading ? "로딩 중" : "상품 팔기"} />
+        <Button text={isLoading ? "로딩 중" : "상품 팔기"} />
       </form>
     </Layout>
   );

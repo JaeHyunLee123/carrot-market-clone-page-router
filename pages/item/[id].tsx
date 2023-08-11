@@ -23,12 +23,12 @@ const ItemDetail: NextPage = () => {
   const { data, mutate } = useSWR<IItemResponse>(
     router.query.id ? `/api/items/${router.query.id}` : null
   );
-  const [toggleFav, { loading }] = useMutation(
+  const [toggleFav, { isLoading }] = useMutation(
     `/api/items/${router.query.id}/favorites`
   );
 
   const onFavoriteClick = () => {
-    if (loading || !data) return;
+    if (isLoading || !data) return;
     toggleFav({});
     mutate({ ...data, isFavorite: !data.isFavorite }, false);
   };

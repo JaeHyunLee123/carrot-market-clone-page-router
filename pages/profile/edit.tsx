@@ -28,7 +28,7 @@ const EditProfile: NextPage = () => {
     setError,
     formState: { errors },
   } = useForm<IEditProfileForm>();
-  const [editProfile, { result, loading }] =
+  const [editProfile, { result, isLoading }] =
     useMutation<IEditProfileResponse>("/api/users/me");
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const EditProfile: NextPage = () => {
   }, [result, setError]);
 
   const onValid = ({ email, phone, name }: IEditProfileForm) => {
-    if (loading) return;
+    if (isLoading) return;
     if (!(email || phone || name)) {
       setError("formError", {
         message: "업데이트 요소 중 하나는 적어야 합니다",
@@ -103,7 +103,7 @@ const EditProfile: NextPage = () => {
             {errors.formError.message}
           </span>
         ) : null}
-        <Button text={loading ? "로딩중" : "프로필 업데이트"} />
+        <Button text={isLoading ? "로딩중" : "프로필 업데이트"} />
       </form>
     </Layout>
   );

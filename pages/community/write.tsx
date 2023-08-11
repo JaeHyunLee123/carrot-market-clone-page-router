@@ -19,11 +19,11 @@ interface WriteRespose {
 
 const Write: NextPage = () => {
   const { register, handleSubmit } = useForm<WriteForm>();
-  const [post, { loading, result }] = useMutation<WriteRespose>("/api/post");
+  const [post, { isLoading, result }] = useMutation<WriteRespose>("/api/post");
   const router = useRouter();
 
   const onValid = (data: WriteForm) => {
-    if (loading) return;
+    if (isLoading) return;
     post(data);
   };
 
@@ -45,7 +45,7 @@ const Write: NextPage = () => {
           })}
           placeholder="궁굼한 것을 물어보세요!"
         />
-        <Button text={loading ? "로딩중" : "질문 올리기"} />
+        <Button text={isLoading ? "로딩중" : "질문 올리기"} />
       </form>
     </Layout>
   );

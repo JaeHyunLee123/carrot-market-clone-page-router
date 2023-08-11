@@ -22,9 +22,12 @@ interface IMutationResult {
 }
 
 const Enter = () => {
-  const [enter, { loading }] = useMutation<IMutationResult>("/api/users/enter");
-  const [confirmToken, { loading: tokenLoading, result: tokenMutationResult }] =
-    useMutation<IMutationResult>("/api/users/confirm");
+  const [enter, { isLoading }] =
+    useMutation<IMutationResult>("/api/users/enter");
+  const [
+    confirmToken,
+    { isLoading: tokenLoading, result: tokenMutationResult },
+  ] = useMutation<IMutationResult>("/api/users/confirm");
   const {
     register,
     reset,
@@ -46,7 +49,7 @@ const Enter = () => {
   };
 
   const onValid = (enterData: IEnterForm) => {
-    if (loading) return;
+    if (isLoading) return;
     enter(enterData);
   };
 
@@ -105,7 +108,7 @@ const Enter = () => {
             />
             <Button
               text={
-                loading
+                isLoading
                   ? "로딩 중"
                   : method === "email"
                   ? "로그인 링크 받기"

@@ -39,10 +39,10 @@ const CommunityPostDetail: NextPage = () => {
   const { data, mutate } = useSWR<ICommunityPostResponse>(
     router.query.id ? `/api/post/${router.query.id}` : null
   );
-  const [wonder, { loading: wonderLoading }] = useMutation(
+  const [wonder, { isLoading: isWonderLoading }] = useMutation(
     `/api/post/${router.query.id}/wonder`
   );
-  const [sendAnswer, { result, loading: answerLoading }] = useMutation<{
+  const [sendAnswer, { result, isLoading: isAnswerLoading }] = useMutation<{
     ok: boolean;
   }>(`/api/post/${router.query.id}/answer`);
   const { register, handleSubmit, reset } = useForm<ICommunityAnswerForm>();
@@ -65,11 +65,11 @@ const CommunityPostDetail: NextPage = () => {
       },
       false
     );
-    if (!wonderLoading) wonder({});
+    if (!isWonderLoading) wonder({});
   };
 
   const onValid = (data: ICommunityAnswerForm) => {
-    if (answerLoading) return;
+    if (isAnswerLoading) return;
     sendAnswer(data);
   };
 
@@ -172,7 +172,7 @@ const CommunityPostDetail: NextPage = () => {
               maxLength: 300,
             })}
           />
-          <Button text={answerLoading ? "로딩중" : "댓글 달기"} />
+          <Button text={isAnswerLoading ? "로딩중" : "댓글 달기"} />
         </form>
       </div>
     </Layout>
