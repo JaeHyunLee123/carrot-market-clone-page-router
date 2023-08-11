@@ -16,7 +16,7 @@ interface IStreamForm {
 
 interface IStreamResponse {
   ok: boolean;
-  stream: Stream;
+  stream?: Stream;
 }
 
 const Create: NextPage = () => {
@@ -31,7 +31,7 @@ const Create: NextPage = () => {
   };
 
   useEffect(() => {
-    if (result && result.ok) router.push(`/stream/${result.stream.id}`);
+    if (result && result.ok) router.push(`/stream/${result.stream?.id}`);
   }, [result, router]);
 
   return (

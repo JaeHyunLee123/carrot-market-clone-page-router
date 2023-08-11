@@ -1,15 +1,47 @@
 import { NextPage } from "next";
 import Layout from "@components/layout";
 import Message from "@components/message";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { Stream } from "@prisma/client";
+import { useForm } from "react-hook-form";
+import useMutation from "@libs/client/useMutation";
+
+interface IStreamResponse {
+  ok: boolean;
+  stream: Stream;
+}
+
+interface IMessageForm {
+  message: string;
+}
 
 const StreamDetail: NextPage = () => {
+  const router = useRouter();
+  const { register, handleSubmit, reset } = useForm<IMessageForm>();
+  const { data } = useSWR<IStreamResponse>(
+    router.query.id ? `/api/stream/${router.query.id}` : null
+  );
+  const [sendMessage, { isLoading }] = useMutation(
+    `/api/stream/${router.query.id}/messages`
+  );
+
+  const onValid = (form: IMessageForm) => {
+    if (isLoading) return;
+    reset();
+    sendMessage(form);
+  };
+
   return (
     <Layout canGoBack={true}>
       <div className="px-4 pb-10">
         <div className="flex flex-col space-y-2 pb-3 mt-4">
           <div className="w-full bg-gray-400 aspect-video rounded-sm" />
           <span className="text-gray-800 text-2xl text-center">
-            Wow this is a video!
+            {data?.stream.name}
+          </span>
+          <span className="text-gray-600 text-sm">
+            {data?.stream.description}
           </span>
         </div>
 
@@ -23,8 +55,12 @@ const StreamDetail: NextPage = () => {
         </div>
 
         <div className="fixed m-auto w-full max-w-lg bottom-2 inset-x-0 px-3">
-          <div className="relative flex items-center">
+          <form
+            onSubmit={handleSubmit(onValid)}
+            className="relative flex items-center"
+          >
             <input
+              {...register("message", { required: true })}
               className="pr-16 shadow-sm rounded-full w-full border border-gray-300 focus:outline-none focus:border-orange-500 focus:ring-orange-500"
               type="text"
             />
@@ -44,7 +80,7 @@ const StreamDetail: NextPage = () => {
                 />
               </svg>
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </Layout>
