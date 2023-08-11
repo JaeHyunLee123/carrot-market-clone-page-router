@@ -15,6 +15,13 @@ const handler = async (
 
   const stream = await prisma.stream.findUnique({
     where: { id: +id.toString() },
+    include: {
+      messages: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   if (!stream) return res.status(404).json({ ok: false });

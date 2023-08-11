@@ -3,13 +3,23 @@ import Layout from "@components/layout";
 import Message from "@components/message";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { Stream } from "@prisma/client";
+import { Stream, User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
+import useUser from "@libs/client/useUser";
+import { useEffect, useRef } from "react";
+
+interface IStreamWithMessage extends Stream {
+  messages: {
+    message: string;
+    id: number;
+    user: { id: number; avatar?: string };
+  }[];
+}
 
 interface IStreamResponse {
   ok: boolean;
-  stream: Stream;
+  stream: IStreamWithMessage;
 }
 
 interface IMessageForm {
@@ -17,12 +27,13 @@ interface IMessageForm {
 }
 
 const StreamDetail: NextPage = () => {
+  const { user } = useUser();
   const router = useRouter();
   const { register, handleSubmit, reset } = useForm<IMessageForm>();
-  const { data } = useSWR<IStreamResponse>(
+  const { data, mutate } = useSWR<IStreamResponse>(
     router.query.id ? `/api/stream/${router.query.id}` : null
   );
-  const [sendMessage, { isLoading }] = useMutation(
+  const [sendMessage, { isLoading, result }] = useMutation(
     `/api/stream/${router.query.id}/messages`
   );
 
@@ -31,6 +42,17 @@ const StreamDetail: NextPage = () => {
     reset();
     sendMessage(form);
   };
+
+  useEffect(() => {
+    if (result && result.ok) {
+      mutate();
+    }
+  }, [result, mutate]);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView();
+  });
 
   return (
     <Layout canGoBack={true}>
@@ -46,12 +68,17 @@ const StreamDetail: NextPage = () => {
         </div>
 
         <div className="flex flex-col space-y-3 mt-5 h-[45vh] overflow-y-scroll">
-          {[1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-            <div key={i} className="flex flex-col space-y-3">
-              <Message message="안녕?" />
-              <Message message="Hello" reversed={true} />
-            </div>
-          ))}
+          <div className="flex flex-col space-y-3">
+            {data?.stream.messages.map((message) => (
+              <Message
+                key={message.id}
+                message={message.message}
+                reversed={message.user.id === user?.id}
+                avatarUrl={message.user.avatar}
+              />
+            ))}
+            <div ref={scrollRef} />
+          </div>
         </div>
 
         <div className="fixed m-auto w-full max-w-lg bottom-2 inset-x-0 px-3">
