@@ -4,7 +4,7 @@ import Button from "@components/button";
 import Input from "@components/input";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useMutation from "@libs/client/useMutation";
 
 interface IEditProfileForm {
@@ -12,6 +12,7 @@ interface IEditProfileForm {
   phone?: string;
   formError?: string;
   name?: string;
+  avatar?: FileList;
 }
 
 interface IEditProfileResponse {
@@ -27,9 +28,11 @@ const EditProfile: NextPage = () => {
     setValue,
     setError,
     formState: { errors },
+    watch,
   } = useForm<IEditProfileForm>();
   const [editProfile, { result, isLoading }] =
     useMutation<IEditProfileResponse>("/api/users/me");
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   useEffect(() => {
     setValue("name", user?.name);
@@ -43,9 +46,17 @@ const EditProfile: NextPage = () => {
     }
   }, [result, setError]);
 
-  const onValid = ({ email, phone, name }: IEditProfileForm) => {
+  const newAvatar = watch("avatar");
+  useEffect(() => {
+    if (newAvatar && newAvatar.length > 0) {
+      const file = newAvatar[0];
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  }, [newAvatar]);
+
+  const onValid = ({ email, phone, name, avatar }: IEditProfileForm) => {
     if (isLoading) return;
-    if (!(email || phone || name)) {
+    if (!(email || phone || name || avatar)) {
       setError("formError", {
         message: "업데이트 요소 중 하나는 적어야 합니다",
       });
@@ -60,7 +71,10 @@ const EditProfile: NextPage = () => {
         className="px-4 flex flex-col space-y-4"
       >
         <div className="flex items-center space-x-3">
-          <div className="aspect-square w-14 bg-gray-400 rounded-full" />
+          <img
+            src={avatarPreview || "#"}
+            className="aspect-square w-14 rounded-full"
+          />
           <div>
             <label
               htmlFor="profileimage"
@@ -69,6 +83,7 @@ const EditProfile: NextPage = () => {
               프로필 사진 바꾸기
             </label>
             <input
+              {...register("avatar")}
               id="profileimage"
               type="file"
               className="hidden"
