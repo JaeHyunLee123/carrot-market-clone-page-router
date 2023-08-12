@@ -4,7 +4,7 @@ import FloatingButton from "@components/floatingbutton";
 import Link from "next/link";
 import useSWR from "swr";
 import { Stream } from "@prisma/client";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import useIntersect from "@libs/client/useIntersect";
 
 interface IStreamsResponse {

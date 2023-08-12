@@ -38,7 +38,8 @@ const handler = async (
     const streams = await prisma.stream.findMany({
       select: { name: true, id: true },
       orderBy: { createdAt: "desc" },
-      take: Number(page),
+      take: 1,
+      skip: Number(page) - 1,
     });
 
     res.status(200).json({ ok: true, streams });
