@@ -3,8 +3,6 @@ import prisma from "@libs/server/prismaClients";
 import withHandler, { IResposeType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 
-const PAGE_SIZE = 10;
-
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<IResposeType>
@@ -40,7 +38,7 @@ const handler = async (
     const streams = await prisma.stream.findMany({
       select: { name: true, id: true },
       orderBy: { createdAt: "desc" },
-      take: PAGE_SIZE * Number(page),
+      take: Number(page),
     });
 
     res.status(200).json({ ok: true, streams });

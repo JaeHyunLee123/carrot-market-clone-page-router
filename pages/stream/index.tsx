@@ -5,47 +5,58 @@ import Link from "next/link";
 import useSWR from "swr";
 import { Stream } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
+import useIntersect from "@libs/client/useIntersect";
 
 interface IStreamsResponse {
   ok: boolean;
   streams: Stream[];
 }
 
+interface IPageProps {
+  pageIndex: number;
+}
+
+const Page = ({ pageIndex }: IPageProps) => {
+  const { data } = useSWR<IStreamsResponse>(`/api/stream?page=${pageIndex}`);
+  return (
+    <>
+      {data?.streams.map((stream) => (
+        <Link
+          href={`/stream/${stream.id}`}
+          key={stream.id}
+          className="flex flex-col space-y-2 border-b pb-3"
+        >
+          <div className="w-full bg-gray-400 aspect-video rounded-sm" />
+          <span className="text-gray-800 text-lg">{stream.name}</span>
+        </Link>
+      ))}
+    </>
+  );
+};
+
 const StreamList: NextPage = () => {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useSWR<IStreamsResponse>(
-    `/api/stream?page=${page}`
-  );
-  const [endOfPage, setEndOfPage] = useState<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const getNewPage = () => {
-      if (isLoading) return;
-      setPage((prev) => prev + 1);
-    };
+  const getNewPage = () => {
+    setPage((prev) => prev + 1);
+    console.log(page);
+  };
 
-    if (endOfPage) {
-      const observer = new IntersectionObserver(getNewPage);
-      observer.observe(endOfPage);
-    }
-  }, [endOfPage, isLoading]);
+  const ref = useIntersect(getNewPage);
+
+  const pages = [];
+  for (let i = 1; i <= page; i++) {
+    pages.push(<Page key={i} pageIndex={i} />);
+  }
 
   return (
     <Layout title="라이브" hasTabBar={true}>
       <div className="px-4">
         <div className="flex flex-col space-y-4">
-          {data?.streams.map((stream) => (
-            <Link
-              href={`/stream/${stream.id}`}
-              key={stream.id}
-              className="flex flex-col space-y-2 border-b pb-3"
-            >
-              <div className="w-full bg-gray-400 aspect-video rounded-sm" />
-              <span className="text-gray-800 text-lg">{stream.name}</span>
-            </Link>
-          ))}
-          <div ref={setEndOfPage} />
+          {pages}
+          <div ref={ref} />
         </div>
+
         <FloatingButton href="/stream/create">
           <svg
             xmlns="http://www.w3.org/2000/svg"
