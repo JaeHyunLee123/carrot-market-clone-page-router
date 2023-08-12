@@ -37,13 +37,10 @@ const handler = async (
       query: { page },
     } = req;
 
-    const backendPage = page ? Number(page) - 1 : 0;
-
     const streams = await prisma.stream.findMany({
       select: { name: true, id: true },
       orderBy: { createdAt: "desc" },
-      take: PAGE_SIZE,
-      skip: PAGE_SIZE * backendPage,
+      take: PAGE_SIZE * Number(page),
     });
 
     res.status(200).json({ ok: true, streams });
