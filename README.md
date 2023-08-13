@@ -37,3 +37,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 1. change login and create account using username and password + social login
 1. make file for interfaces and types
+1. default image for user
+1. apply infinite scroll to anywhere
+
+## What to configure in .env
+
+- DATABASE_URL
+- CF_TOKEN
+- CF_ID

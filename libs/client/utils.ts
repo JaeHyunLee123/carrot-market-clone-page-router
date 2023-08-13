@@ -1,3 +1,4 @@
+//set this url to your own cloudflare image delivery url
 const cloudflareImageDeliveryUrl =
   "https://imagedelivery.net/RArPUwqfSYUhqYRxr1wxig/";
 

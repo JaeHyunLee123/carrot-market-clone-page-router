@@ -9,7 +9,7 @@ const handler = async (
 ) => {
   if (req.method === "POST") {
     const {
-      body: { name, price, description },
+      body: { name, price, description, imageUrl },
       session: { user },
     } = req;
 
@@ -18,7 +18,7 @@ const handler = async (
         name,
         price: +price,
         description,
-        imageUrl: "#",
+        imageUrl,
         user: {
           connect: {
             id: user?.id,
