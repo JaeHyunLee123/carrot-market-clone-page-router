@@ -19,7 +19,7 @@ model User {
   name   String
   phone  String? @unique
   email  String? @unique
-  avatar String?
+  avatar String  @default("157abaf4-5fb6-4181-afc0-37ea08b6ae00")
 
   tokens          Token[]
   items           Item[]
