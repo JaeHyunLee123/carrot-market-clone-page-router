@@ -54,14 +54,22 @@ const EditProfile: NextPage = () => {
     }
   }, [newAvatar]);
 
-  const onValid = ({ email, phone, name, avatar }: IEditProfileForm) => {
+  const onValid = async ({ email, phone, name, avatar }: IEditProfileForm) => {
     if (isLoading) return;
     if (!(email || phone || name || avatar)) {
       setError("formError", {
-        message: "업데이트 요소 중 하나는 적어야 합니다",
+        message: "업데이트 요소 중 하나는 수정해야 합니다",
       });
     }
-    editProfile({ email, phone, name });
+    if (avatar && avatar.length > 0) {
+      const cloudflareURL = await (await fetch("/api/files")).json();
+      console.log(cloudflareURL);
+      return;
+
+      //editProfile({ email, phone, name, avatarUrl });
+    } else {
+      editProfile({ email, phone, name });
+    }
   };
 
   return (
