@@ -2,6 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const delay = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 const main = async () => {
   [...Array.from(Array(500).keys())].forEach(async (item) => {
     await prisma.stream.create({
@@ -15,6 +19,7 @@ const main = async () => {
         },
       },
     });
+    await delay(10);
     console.log(`${item}/500`);
   });
 };

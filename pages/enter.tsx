@@ -5,7 +5,6 @@ import Layout from "@components/layout";
 import Input from "@components/input";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
-import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/router";
 
 interface IEnterForm {
