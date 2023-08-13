@@ -7,6 +7,7 @@ import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useUser from "@libs/client/useUser";
+import { uploadImage } from "@libs/client/cloudflare-image";
 
 interface IUploadItemForm {
   name: string;
@@ -37,19 +38,7 @@ const Upload = () => {
     if (isLoading) return;
     if (!(photo && photo.length > 0)) return;
 
-    const { uploadURL } = await (await fetch("/api/files")).json();
-
-    const cloudflareForm = new FormData();
-    cloudflareForm.append("file", photo[0], name);
-
-    const {
-      result: { id },
-    } = await (
-      await fetch(uploadURL, {
-        method: "POST",
-        body: cloudflareForm,
-      })
-    ).json();
+    const id = await uploadImage(photo[0], name);
 
     uploadItem({ name, price, description, imageUrl: id });
   };

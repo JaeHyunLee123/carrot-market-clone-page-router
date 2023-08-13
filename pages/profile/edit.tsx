@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useMutation from "@libs/client/useMutation";
 import { getCloudflareImageUrl } from "@libs/client/utils";
+import { uploadImage } from "@libs/client/cloudflare-image";
 
 interface IEditProfileForm {
   email?: string;
@@ -63,19 +64,7 @@ const EditProfile: NextPage = () => {
       });
     }
     if (avatar && avatar.length > 0) {
-      const { uploadURL } = await (await fetch("/api/files")).json();
-
-      const form = new FormData();
-      form.append("file", avatar[0], `${user?.id}`);
-
-      const {
-        result: { id },
-      } = await (
-        await fetch(uploadURL, {
-          method: "POST",
-          body: form,
-        })
-      ).json();
+      const id = await uploadImage(avatar[0], String(user?.id));
 
       editProfile({ email, phone, name, avatarId: id });
     } else {

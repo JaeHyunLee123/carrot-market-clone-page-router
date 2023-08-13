@@ -106,7 +106,13 @@ const Profile: NextPage = () => {
           {data?.reviews.map((review) => (
             <div key={review.id}>
               <div className="flex space-x-2 items-center mt-10">
-                <div className="aspect-square w-14 bg-gray-400 rounded-full" />
+                <img
+                  src={getCloudflareImageUrl(
+                    review.reviewedBy.avatar,
+                    "avatar"
+                  )}
+                  className="aspect-square w-14 rounded-full"
+                />
                 <div>
                   <h4 className="text-gray-900">{review.reviewedBy.name}</h4>
                   <div className="flex">
