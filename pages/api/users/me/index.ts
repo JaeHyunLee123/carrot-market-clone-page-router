@@ -18,14 +18,14 @@ const handler = async (
   } else if (req.method === "POST") {
     const {
       session: { user },
-      body: { email, phone, name },
+      body: { email, phone, name, avatarId },
     } = req;
 
     if (!user) return res.status(400).json({ ok: false });
 
     const currentUser = await prisma.user.findUnique({
       where: { id: user.id },
-      select: { email: true, phone: true, name: true },
+      select: { email: true, phone: true, name: true, avatar: true },
     });
 
     if (email && currentUser?.email !== email) {
@@ -84,7 +84,18 @@ const handler = async (
         },
       });
     }
+    if (avatarId && avatarId !== currentUser?.avatar) {
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          avatar: avatarId,
+        },
+      });
+    }
   }
+
   res.json({ ok: true });
 };
 

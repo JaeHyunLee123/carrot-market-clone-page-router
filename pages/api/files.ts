@@ -29,7 +29,7 @@ const handler = async (
     )
   ).json();
 
-  res.status(200).json({ ok: true, ...response.result });
+  res.status(200).json({ ok: true, uploadURL: response.result.uploadURL });
 };
 
 export default withApiSession(
