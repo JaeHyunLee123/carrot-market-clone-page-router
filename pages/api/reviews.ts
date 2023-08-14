@@ -21,8 +21,8 @@ const handler = async (
       reviewedBy: {
         select: {
           id: true,
-          name: true,
-          avatar: true,
+          username: true,
+          avatarId: true,
         },
       },
     },

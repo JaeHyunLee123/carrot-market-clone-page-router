@@ -21,9 +21,9 @@ const handler = async (
     include: {
       user: {
         select: {
-          name: true,
+          username: true,
           id: true,
-          avatar: true,
+          avatarId: true,
         },
       },
       answers: {
@@ -34,8 +34,8 @@ const handler = async (
           user: {
             select: {
               id: true,
-              name: true,
-              avatar: true,
+              username: true,
+              avatarId: true,
             },
           },
         },

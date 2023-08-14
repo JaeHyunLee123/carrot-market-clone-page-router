@@ -9,7 +9,7 @@ import { cls, getCloudflareImageUrl } from "@libs/client/utils";
 import Image from "next/image";
 
 interface IItemWithUserInfo extends Item {
-  user: { id: number; name: string; avatar: string };
+  user: { id: number; username: string; avatarId: string };
 }
 
 interface IItemResponse {
@@ -40,7 +40,7 @@ const ItemDetail: NextPage = () => {
         <div>
           <div className="relative w-full h-96">
             <Image
-              src={getCloudflareImageUrl(data?.item?.imageUrl || "")}
+              src={getCloudflareImageUrl(data?.item?.imageId || "")}
               fill
               alt="itemImage"
               className="rounded-lg object-contain"
@@ -50,7 +50,7 @@ const ItemDetail: NextPage = () => {
           <div className="flex  cursor-pointer mt-5 border-b pb-4 items-center space-x-4">
             <Image
               src={getCloudflareImageUrl(
-                data?.item?.user.avatar || "",
+                data?.item?.user.avatarId || "",
                 "avatar"
               )}
               height={48}
@@ -60,7 +60,7 @@ const ItemDetail: NextPage = () => {
             />
             <div>
               <p className="font-medium text-gray-700">
-                {data?.item?.user?.name}
+                {data?.item?.user?.username}
               </p>
               <Link
                 href={`/proflie/${data?.item?.user?.id}`}

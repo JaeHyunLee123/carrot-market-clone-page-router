@@ -8,12 +8,13 @@ import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useEffect, useRef } from "react";
+import { getCloudflareImageUrl } from "@libs/client/utils";
 
 interface IStreamWithMessage extends Stream {
   messages: {
     message: string;
     id: number;
-    user: { id: number; avatar?: string };
+    user: { id: number; avatarId?: string };
   }[];
 }
 
@@ -86,7 +87,10 @@ const StreamDetail: NextPage = () => {
                 key={message.id}
                 message={message.message}
                 reversed={message.user.id === user?.id}
-                avatarUrl={message.user.avatar}
+                avatarUrl={getCloudflareImageUrl(
+                  message.user.avatarId || "",
+                  "avatar"
+                )}
               />
             ))}
             <div ref={scrollRef} />

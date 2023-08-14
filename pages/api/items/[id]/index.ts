@@ -22,8 +22,8 @@ const handler = async (
       user: {
         select: {
           id: true,
-          name: true,
-          avatar: true,
+          username: true,
+          avatarId: true,
         },
       },
     },

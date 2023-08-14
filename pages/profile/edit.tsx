@@ -10,10 +10,8 @@ import { getCloudflareImageUrl } from "@libs/client/utils";
 import { uploadImage } from "@libs/client/cloudflare-image";
 
 interface IEditProfileForm {
-  email?: string;
-  phone?: string;
   formError?: string;
-  name?: string;
+  username?: string;
   avatar?: FileList;
 }
 
@@ -37,9 +35,7 @@ const EditProfile: NextPage = () => {
   const [avatarPreview, setAvatarPreview] = useState("");
 
   useEffect(() => {
-    setValue("name", user?.name);
-    if (user?.email) setValue("email", user?.email);
-    if (user?.phone) setValue("phone", user?.phone);
+    setValue("username", user?.username);
   }, [user, setValue]);
 
   useEffect(() => {
@@ -56,9 +52,9 @@ const EditProfile: NextPage = () => {
     }
   }, [newAvatar]);
 
-  const onValid = async ({ email, phone, name, avatar }: IEditProfileForm) => {
+  const onValid = async ({ username, avatar }: IEditProfileForm) => {
     if (isLoading) return;
-    if (!(email || phone || name || avatar)) {
+    if (!(username || avatar)) {
       setError("formError", {
         message: "업데이트 요소 중 하나는 수정해야 합니다",
       });
@@ -66,9 +62,9 @@ const EditProfile: NextPage = () => {
     if (avatar && avatar.length > 0) {
       const id = await uploadImage(avatar[0], `${user?.id}-avatar`);
 
-      editProfile({ email, phone, name, avatarId: id });
+      editProfile({ username, avatarId: id });
     } else {
-      editProfile({ email, phone, name });
+      editProfile({ username });
     }
   };
 
@@ -82,7 +78,7 @@ const EditProfile: NextPage = () => {
           <img
             src={
               avatarPreview ||
-              getCloudflareImageUrl(user?.avatar || "", "avatar")
+              getCloudflareImageUrl(user?.avatarId || "", "avatar")
             }
             className="aspect-square w-14 rounded-full"
           />
@@ -108,22 +104,9 @@ const EditProfile: NextPage = () => {
           label="닉네임"
           kind="text"
           required={false}
-          register={register("name")}
+          register={register("username")}
         />
-        <Input
-          name="email"
-          label="이메일"
-          kind="email"
-          required={false}
-          register={register("email")}
-        />
-        <Input
-          name="phonenumber"
-          label="휴대폰 번호"
-          kind="phone"
-          required={false}
-          register={register("phone")}
-        />
+
         {errors.formError ? (
           <span className="my-2 text-sm text-red-400 text-center">
             {errors.formError.message}

@@ -16,12 +16,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name   String
-  phone  String? @unique
-  email  String? @unique
-  avatar String  @default("157abaf4-5fb6-4181-afc0-37ea08b6ae00")
+  username String @unique
+  password String
+  avatarId String @default("157abaf4-5fb6-4181-afc0-37ea08b6ae00")
 
-  tokens          Token[]
   items           Item[]
   favorites       Favorite[]
   posts           Post[]
@@ -35,25 +33,12 @@ model User {
   messages        Message[]
 }
 
-model Token {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  payload String @unique
-
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
-
-  @@index([userId])
-}
-
 model Item {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  imageUrl    String
+  imageId     String
   price       Int
   name        String
   description String @db.MediumText
@@ -172,13 +157,16 @@ model Stream {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name        String
-  description String @db.MediumText
-
-  messages Message[]
+  name          String
+  description   String @db.MediumText
+  cloudflareId  String
+  cloudflareUrl String
+  cloudflareKey String
 
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
+
+  messages Message[]
 
   @@index([userId])
 }

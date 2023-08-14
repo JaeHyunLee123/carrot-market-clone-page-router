@@ -18,79 +18,45 @@ const handler = async (
   } else if (req.method === "POST") {
     const {
       session: { user },
-      body: { email, phone, name, avatarId },
+      body: { username, avatarId },
     } = req;
 
     if (!user) return res.status(400).json({ ok: false });
 
     const currentUser = await prisma.user.findUnique({
       where: { id: user.id },
-      select: { email: true, phone: true, name: true, avatar: true },
+      select: { username: true, avatarId: true },
     });
 
-    if (email && currentUser?.email !== email) {
+    if (username && username !== currentUser?.username) {
       const isExist = Boolean(
         await prisma.user.findUnique({
-          where: { email },
+          where: { username },
           select: { id: true },
         })
       );
+
       if (isExist)
         return res
           .status(400)
-          .json({ ok: false, error: "이 이메일은 사용중입니다" });
+          .json({ ok: false, error: "이 이름은 이미 사용중입니다" });
 
       await prisma.user.update({
         where: {
           id: user.id,
         },
         data: {
-          email,
-        },
-      });
-      return res.json({ ok: true });
-    }
-
-    if (phone && currentUser?.phone !== phone) {
-      const isExist = Boolean(
-        await prisma.user.findUnique({
-          where: { phone },
-          select: { id: true },
-        })
-      );
-      if (isExist)
-        return res
-          .status(400)
-          .json({ ok: false, error: "이 전화번호는 사용중입니다" });
-
-      await prisma.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          phone,
-        },
-      });
-      return res.json({ ok: true });
-    }
-
-    if (name && name !== currentUser?.name) {
-      await prisma.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          name,
+          username,
         },
       });
     }
-    if (avatarId && avatarId !== currentUser?.avatar) {
+    if (avatarId && avatarId !== currentUser?.avatarId) {
       await prisma.user.update({
         where: {
           id: user.id,
         },
         data: {
-          avatar: avatarId,
+          avatarId: avatarId,
         },
       });
     }

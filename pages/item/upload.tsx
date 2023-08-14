@@ -40,7 +40,7 @@ const Upload = () => {
 
     const id = await uploadImage(photo[0], name);
 
-    uploadItem({ name, price, description, imageUrl: id });
+    uploadItem({ name, price, description, imageId: id });
   };
 
   useEffect(() => {

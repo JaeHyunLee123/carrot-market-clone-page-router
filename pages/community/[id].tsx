@@ -90,7 +90,7 @@ const CommunityPostDetail: NextPage = () => {
           <div className="w-10 h-10 rounded-full bg-slate-300" />
           <div>
             <p className="text-sm font-medium text-gray-700">
-              {data?.post?.user.name}
+              {data?.post?.user.username}
             </p>
             <Link href={`/proflie/${data?.post?.user?.id}`}>
               <p className="text-xs font-medium text-gray-500">
@@ -153,7 +153,7 @@ const CommunityPostDetail: NextPage = () => {
               <div className="w-8 h-8 bg-slate-200 rounded-full" />
               <div>
                 <span className="text-sm block font-medium text-gray-700">
-                  {answer.user.name}
+                  {answer.user.username}
                 </span>
                 <span className="text-xs text-gray-500 block ">
                   {`${answer.createdAt}`}

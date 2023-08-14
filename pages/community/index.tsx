@@ -37,7 +37,9 @@ const Community: NextPage = () => {
               <span className="text-orange-500">Q.</span> {post.question}
             </span>
             <div className="flex justify-between border-b pb-2">
-              <span className="text-sm text-gray-500">{post.user.name}</span>
+              <span className="text-sm text-gray-500">
+                {post.user.username}
+              </span>
               <span className="text-sm text-gray-500">{`${post.createdAt}`}</span>
             </div>
             <div className="flex space-x-2">

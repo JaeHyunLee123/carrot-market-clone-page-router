@@ -24,11 +24,11 @@ const Profile: NextPage = () => {
       <div className="px-4">
         <div className="flex items-center space-x-2">
           <img
-            src={getCloudflareImageUrl(user?.avatar || "", "avatar")}
+            src={getCloudflareImageUrl(user?.avatarId || "", "avatar")}
             className="aspect-square w-16 rounded-full"
           />
           <div className="flex flex-col">
-            <span className=" text-gray-900">{user?.name}</span>
+            <span className=" text-gray-900">{user?.username}</span>
             <Link href="/profile/edit" className="text-sm text-gray-500">
               프로필 편집 &rarr;
             </Link>
@@ -108,13 +108,15 @@ const Profile: NextPage = () => {
               <div className="flex space-x-2 items-center mt-10">
                 <img
                   src={getCloudflareImageUrl(
-                    review.reviewedBy.avatar,
+                    review.reviewedBy.avatarId,
                     "avatar"
                   )}
                   className="aspect-square w-14 rounded-full"
                 />
                 <div>
-                  <h4 className="text-gray-900">{review.reviewedBy.name}</h4>
+                  <h4 className="text-gray-900">
+                    {review.reviewedBy.username}
+                  </h4>
                   <div className="flex">
                     {[1, 2, 3, 4, 5].map((level) => (
                       <svg
