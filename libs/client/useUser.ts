@@ -14,7 +14,7 @@ const useUser = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (data && !data.ok) router.replace("/enter");
+    if (data && !data.ok) router.replace("/log-in");
   }, [data, router]);
 
   return { user: data?.profile, isLoading: !data && !error };

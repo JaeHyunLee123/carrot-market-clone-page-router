@@ -39,17 +39,16 @@ const Signup = () => {
   useEffect(() => {
     if (result && result.ok) router.push("/enter");
 
-    if (result && result.error === "usernameExist") {
+    if (result?.error === "usernameExist") {
       setError("username", { message: "이미 사용중인 닉네임입니다" });
     }
   }, [result, router, setError]);
 
   return (
-    <Layout canGoBack={true}>
+    <Layout canGoBack={false}>
       <div className="px-4 pb-10 w-full">
         <h3 className="text-3xl font-bold text-center">캐럿마켓 회원가입</h3>
         <div className="mt-8 w-full flex flex-col items-center">
-          <h5 className="text-sm text-gray-500 font-medium">회원정보입력</h5>
           <form onSubmit={handleSubmit(onValid)} className="w-4/5 space-y-4">
             <Input
               label="닉네임"
@@ -125,7 +124,7 @@ const Signup = () => {
           </span>
         </div>
       </div>
-      <Link href="/enter">
+      <Link href="/log-in">
         <span className="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm text-gray-500 hover:bg-gray-400 font-medium">
           로그인
         </span>
