@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@libs/server/prismaClients";
 import withHandler, { IResposeType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
-import bycript from "bcrypt";
+import bcrypt from "bcrypt";
 
 const handler = async (
   req: NextApiRequest,
@@ -24,7 +24,7 @@ const handler = async (
   if (isExist)
     return res.status(400).json({ ok: false, error: "usernameExist" });
 
-  const hashedPassword = await bycript.hash(password, 5);
+  const hashedPassword = await bcrypt.hash(password, 5);
 
   await prisma.user.create({
     data: {
@@ -37,5 +37,5 @@ const handler = async (
 };
 
 export default withApiSession(
-  withHandler({ methods: ["POST"], handler, isPrivate: true })
+  withHandler({ methods: ["POST"], handler, isPrivate: false })
 );
