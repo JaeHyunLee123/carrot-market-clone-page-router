@@ -66,10 +66,7 @@ const Upload = () => {
       >
         <div>
           {photoPreview ? (
-            <img
-              src={photoPreview}
-              className=" w-full aspect-video  h-46 rounded-md"
-            />
+            <img src={photoPreview} className=" w-full  rounded-md" />
           ) : (
             <label className="cursor-pointer w-full flex items-center justify-center border-2 border-dashed border-gray-300 h-48 rounded-md text-gray-600 hover:text-orange-500 hover:border-orange-500">
               <svg

@@ -64,7 +64,7 @@ const EditProfile: NextPage = () => {
       });
     }
     if (avatar && avatar.length > 0) {
-      const id = await uploadImage(avatar[0], String(user?.id));
+      const id = await uploadImage(avatar[0], `${user?.id}-avatar`);
 
       editProfile({ email, phone, name, avatarId: id });
     } else {

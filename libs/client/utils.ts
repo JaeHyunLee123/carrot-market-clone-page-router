@@ -6,7 +6,7 @@ export const cls = (...classnames: string[]) => {
   return classnames.join(" ");
 };
 
-type imageVariant = "public" | "avatar";
+type imageVariant = "public" | "avatar" | "menu";
 export const getCloudflareImageUrl = (
   imageId: string,
   variant: imageVariant = "public"

@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 import { Item } from "@prisma/client";
 import Link from "next/link";
 import useMutation from "@libs/client/useMutation";
-import { cls } from "@libs/client/utils";
+import { cls, getCloudflareImageUrl } from "@libs/client/utils";
+import Image from "next/image";
 
 interface IItemWithUserInfo extends Item {
-  user: { id: number; name: string };
+  user: { id: number; name: string; avatar: string };
 }
 
 interface IItemResponse {
@@ -39,7 +40,16 @@ const ItemDetail: NextPage = () => {
         <div>
           <div className="w-full h-96 bg-gray-400" />
           <div className="flex  cursor-pointer mt-5 border-b pb-4 items-center space-x-4">
-            <div className="w-12 aspect-square rounded-full bg-gray-400" />
+            <Image
+              src={getCloudflareImageUrl(
+                data?.item?.user.avatar || "",
+                "avatar"
+              )}
+              height={48}
+              width={48}
+              alt="uploaderAvatar"
+              className="w-12 aspect-square rounded-full bg-gray-400"
+            />
             <div>
               <p className="font-medium text-gray-700">
                 {data?.item?.user?.name}
