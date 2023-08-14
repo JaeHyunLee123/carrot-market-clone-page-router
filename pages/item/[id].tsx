@@ -35,10 +35,18 @@ const ItemDetail: NextPage = () => {
   };
 
   return (
-    <Layout canGoBack={true} title={data?.item?.name}>
+    <Layout canGoBack={true}>
       <div className="flex flex-col px-4 mb-10">
         <div>
-          <div className="w-full h-96 bg-gray-400" />
+          <div className="relative w-full h-96">
+            <Image
+              src={getCloudflareImageUrl(data?.item?.imageUrl || "")}
+              fill
+              alt="itemImage"
+              className="rounded-lg object-contain"
+            />
+          </div>
+
           <div className="flex  cursor-pointer mt-5 border-b pb-4 items-center space-x-4">
             <Image
               src={getCloudflareImageUrl(
