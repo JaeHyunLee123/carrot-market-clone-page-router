@@ -12,7 +12,6 @@ interface ISignupForm {
   username: string;
   password: string;
   passwordConfirm: string;
-  formError?: string;
 }
 
 interface ISignupResponse {
@@ -30,18 +29,18 @@ const Signup = () => {
     setError,
   } = useForm<ISignupForm>({ mode: "all" });
   const [signup, { result, isLoading }] =
-    useMutation<ISignupResponse>("/api/sign-up");
+    useMutation<ISignupResponse>("/api/users/sign-up");
 
-  const onValid = (form: ISignupForm) => {
+  const onValid = ({ username, password }: ISignupForm) => {
     if (isLoading) return;
-    signup(form);
+    signup({ username, password });
   };
 
   useEffect(() => {
     if (result && result.ok) router.push("/enter");
 
     if (result && result.error === "usernameExist") {
-      setError("formError", { message: "이미 사용중인 닉네임입니다" });
+      setError("username", { message: "이미 사용중인 닉네임입니다" });
     }
   }, [result, router, setError]);
 
@@ -112,9 +111,8 @@ const Signup = () => {
               })}
             />
             <ErrorMessage text={errors.passwordConfirm?.message} />
-            <ErrorMessage text={errors.formError?.message} />
 
-            <Button text="회원가입" />
+            <Button text="회원가입" isLoading={isLoading} />
           </form>
         </div>
       </div>
@@ -129,7 +127,7 @@ const Signup = () => {
       </div>
       <Link href="/enter">
         <span className="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm text-gray-500 hover:bg-gray-400 font-medium">
-          회원가입
+          로그인
         </span>
       </Link>
     </Layout>
