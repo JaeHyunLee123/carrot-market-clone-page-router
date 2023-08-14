@@ -3,10 +3,17 @@ import { cls } from "@libs/client/utils";
 interface IButtonProps {
   large?: boolean;
   text: string;
+  isLoading?: boolean;
   [key: string]: any;
 }
 
-const Button = ({ large = false, onClick, text, ...rest }: IButtonProps) => {
+const Button = ({
+  large = false,
+  onClick,
+  text,
+  isLoading = false,
+  ...rest
+}: IButtonProps) => {
   return (
     <button
       {...rest}
@@ -17,7 +24,7 @@ const Button = ({ large = false, onClick, text, ...rest }: IButtonProps) => {
         large ? "py-3 text-base" : "py-2 text-sm "
       )}
     >
-      {text}
+      {isLoading ? "로딩중" : text}
     </button>
   );
 };
