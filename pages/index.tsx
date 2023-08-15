@@ -28,8 +28,8 @@ const Home: NextPage = () => {
             id={item.id}
             title={item.name}
             price={item.price}
-            comments={0}
             hearts={item._count.favorites}
+            imageId={item.imageId}
           />
         ))}
         <FloatingButton href="/item/upload">

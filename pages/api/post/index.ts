@@ -36,7 +36,7 @@ const handler = async (
       include: {
         user: {
           select: {
-            name: true,
+            username: true,
             id: true,
           },
         },

@@ -1,3 +1,5 @@
+import { getCloudflareImageUrl } from "@libs/client/utils";
+import Image from "next/image";
 import Link from "next/link";
 
 interface IItemProps {
@@ -5,16 +7,23 @@ interface IItemProps {
   id: number;
   price: number;
   hearts: number;
+  imageId: string;
 }
 
-const Item = ({ title, id, price, hearts }: IItemProps) => {
+const Item = ({ title, id, price, hearts, imageId }: IItemProps) => {
   return (
     <Link
       href={`/item/${id}`}
       className="flex border-b pb-4 cursor-pointer justify-between"
     >
       <div className="flex space-x-4">
-        <div className="w-20 aspect-square bg-gray-100 rounded-md" />
+        <Image
+          src={getCloudflareImageUrl(imageId, "menu")}
+          alt="item image"
+          width={80}
+          height={80}
+          className="w-20 aspect-square bg-gray-100 rounded-md"
+        />
         <div className="pt-2 flex flex-col">
           <h3 className="text-sm font-medium text-gray-900">{title}</h3>
           <span className="font-medium mt-1 text-gray-900 ">

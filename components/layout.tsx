@@ -19,7 +19,7 @@ const Layout = ({ title, canGoBack, hasTabBar, children }: LayoutProps) => {
     <div>
       <header
         className={cls(
-          "bg-white w-full text-lg py-3 fixed text-gray-800 border-b top-0 flex items-center max-w-lg justify-center"
+          "z-10 bg-white w-full text-lg py-3 fixed text-gray-800 border-b top-0 flex items-center max-w-lg justify-center"
         )}
       >
         {canGoBack ? (

@@ -35,6 +35,7 @@ const ItemList = ({ kind }: IItemListProp) => {
           title={record.item.name}
           price={record.item.price}
           hearts={record.item._count.favorites}
+          imageId={record.item.imageId}
         />
       ))}
     </>

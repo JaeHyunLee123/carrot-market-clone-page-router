@@ -35,13 +35,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## TODO
 
-1. change login and create account using username and password + social login
-1. make file for interfaces and types
 1. apply image to everywhere
 1. apply infinite scroll to anywhere
+1. while infintit scroll if there isn't data anymore stop fetch data
 
 ## What to configure in .env
 
 - DATABASE_URL
+- SESSION_PASSWORD
 - CF_TOKEN
 - CF_ID

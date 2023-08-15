@@ -25,6 +25,9 @@ const handler = async (
         },
         description,
         name,
+        cloudflareId: "123",
+        cloudflareKey: "123",
+        cloudflareUrl: "123",
       },
       select: { id: true },
     });

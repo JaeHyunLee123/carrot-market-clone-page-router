@@ -8,9 +8,11 @@ const handler = async (
   res: NextApiResponse<IResposeType>
 ) => {
   if (req.method === "GET") {
+    const { user } = req.session;
+
     const profile = await prisma.user.findUnique({
       where: {
-        id: req.session.user?.id,
+        id: user?.id,
       },
     });
 
