@@ -3,6 +3,17 @@ import prisma from "@libs/server/prismaClients";
 import withHandler, { IResposeType } from "@libs/server/withHandler";
 import { withApiSession } from "@libs/server/withSession";
 
+interface ICloudflareResponse {
+  result: {
+    uid: string;
+    rtmps: {
+      url: string;
+      streamKey: string;
+    };
+  };
+  [key: string]: any;
+}
+
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<IResposeType>
@@ -12,6 +23,24 @@ const handler = async (
       body: { name, description },
       session: { user },
     } = req;
+
+    const {
+      result: {
+        uid,
+        rtmps: { url, streamKey },
+      },
+    }: ICloudflareResponse = await (
+      await fetch(
+        `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/stream/live_inputs`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.CF_STREAM_TOKEN}`,
+          },
+          body: `{"meta": {"name":"${name}"},"recording": { "mode": "automatic", "timeoutSeconds": 10 }}`,
+        }
+      )
+    ).json();
 
     if (!(name && description && user))
       return res.status(400).json({ ok: false });
@@ -25,9 +54,9 @@ const handler = async (
         },
         description,
         name,
-        cloudflareId: "123",
-        cloudflareKey: "123",
-        cloudflareUrl: "123",
+        cloudflareId: uid,
+        cloudflareKey: streamKey,
+        cloudflareUrl: url,
       },
       select: { id: true },
     });

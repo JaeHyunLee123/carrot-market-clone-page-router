@@ -42,5 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - DATABASE_URL
 - SESSION_PASSWORD
-- CF_TOKEN
 - CF_ID
+- CF_IMAGE_TOKEN
+- CF_STREAM_TOKEN
+- CF_DELIVERY_URL

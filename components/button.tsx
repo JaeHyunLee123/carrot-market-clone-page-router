@@ -23,6 +23,7 @@ const Button = ({
         "focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:outline-none",
         large ? "py-3 text-base" : "py-2 text-sm "
       )}
+      disabled={isLoading}
     >
       {isLoading ? "로딩중" : text}
     </button>

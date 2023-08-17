@@ -51,7 +51,7 @@ const Create: NextPage = () => {
           name="description"
           label="설명"
         />
-        <Button text="라이브 시작!" />
+        <Button text="라이브 시작!" isLoading={isLoading} />
       </form>
     </Layout>
   );
