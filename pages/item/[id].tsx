@@ -5,8 +5,9 @@ import { useRouter } from "next/router";
 import { Item } from "@prisma/client";
 import Link from "next/link";
 import useMutation from "@libs/client/useMutation";
-import { cls, getCloudflareImageUrl } from "@libs/client/utils";
+import { cls } from "@libs/client/utils";
 import Image from "next/image";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
 
 interface IItemWithUserInfo extends Item {
   user: { id: number; username: string; avatarId: string };

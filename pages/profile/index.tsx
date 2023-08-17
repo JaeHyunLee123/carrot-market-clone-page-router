@@ -4,8 +4,9 @@ import Link from "next/link";
 import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { Review, User } from "@prisma/client";
-import { cls, getCloudflareImageUrl } from "@libs/client/utils";
-
+import { cls } from "@libs/client/utils";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
+import Image from "next/image";
 interface IReviewWithReviewer extends Review {
   reviewedBy: User;
 }
@@ -23,9 +24,12 @@ const Profile: NextPage = () => {
     <Layout title="프로필" hasTabBar={true}>
       <div className="px-4">
         <div className="flex items-center space-x-2">
-          <img
+          <Image
             src={getCloudflareImageUrl(user?.avatarId || "", "avatar")}
             className="aspect-square w-16 rounded-full"
+            width={80}
+            height={80}
+            alt="avatar"
           />
           <div className="flex flex-col">
             <span className=" text-gray-900">{user?.username}</span>

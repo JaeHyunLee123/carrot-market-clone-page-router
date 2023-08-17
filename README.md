@@ -35,7 +35,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## TODO
 
-1. apply image to everywhere
 1. apply infinite scroll to anywhere
 1. while infintit scroll if there isn't data anymore stop fetch data
 

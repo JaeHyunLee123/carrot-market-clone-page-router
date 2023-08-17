@@ -148,7 +148,7 @@ model Transaction {
   itemId Int
 
   @@index([buyerId])
-  @@index([sellerId])
+  @@index([sellerId]) 
   @@index([itemId])
 }
 

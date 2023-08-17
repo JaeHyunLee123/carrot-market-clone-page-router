@@ -1,4 +1,4 @@
-import { getCloudflareImageUrl } from "@libs/client/utils";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
 import Image from "next/image";
 import Link from "next/link";
 

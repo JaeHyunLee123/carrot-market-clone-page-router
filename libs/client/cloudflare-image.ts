@@ -17,6 +17,17 @@ export const uploadImage = async (image: File, imageName: string) => {
   return id;
 };
 
+//set this url to your own cloudflare image delivery url
+const cloudflareImageDeliveryUrl =
+  "https://imagedelivery.net/RArPUwqfSYUhqYRxr1wxig/";
+type imageVariant = "public" | "avatar" | "menu";
+export const getCloudflareImageUrl = (
+  imageId: string,
+  variant: imageVariant = "public"
+) => {
+  return cloudflareImageDeliveryUrl + imageId + "/" + variant;
+};
+
 const upsertImage = () => {};
 
 /*

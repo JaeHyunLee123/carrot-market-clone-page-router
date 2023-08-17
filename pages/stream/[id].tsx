@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useEffect, useRef } from "react";
-import { getCloudflareImageUrl } from "@libs/client/utils";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
 
 interface IStreamWithMessage extends Stream {
   messages: {
