@@ -9,16 +9,31 @@ const handler = async (
 ) => {
   const {
     query: { id },
+    session: { user },
   } = req;
 
-  if (!id) return res.status(400).json({ ok: false });
+  if (!(id && user)) return res.status(400).json({ ok: false });
 
   const stream = await prisma.stream.findUnique({
     where: { id: +id.toString() },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      userId: true,
+      cloudflareId: true,
+      cloudflareKey: true,
+      cloudflareUrl: true,
       messages: {
-        include: {
-          user: true,
+        select: {
+          id: true,
+          message: true,
+          user: {
+            select: {
+              avatarId: true,
+              id: true,
+            },
+          },
         },
       },
     },
@@ -26,7 +41,17 @@ const handler = async (
 
   if (!stream) return res.status(404).json({ ok: false });
 
-  res.status(200).json({ ok: true, stream });
+  const isOwner = stream.userId === user.id;
+
+  if (!isOwner) {
+    stream.cloudflareKey = "xxxxx";
+    stream.cloudflareUrl = "xxxxx";
+  }
+
+  res.status(200).json({
+    ok: true,
+    stream,
+  });
 };
 
 export default withApiSession(

@@ -37,7 +37,7 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    if (result && result.ok) router.push("/enter");
+    if (result && result.ok) router.push("/log-in");
 
     if (result?.error === "usernameExist") {
       setError("username", { message: "이미 사용중인 닉네임입니다" });

@@ -9,6 +9,7 @@ import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useEffect, useRef } from "react";
 import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
+import { cls } from "@libs/client/utils";
 
 interface IStreamWithMessage extends Stream {
   messages: {
@@ -51,7 +52,7 @@ const StreamDetail: NextPage = () => {
               ...prev.stream.messages,
               {
                 message: form.message,
-                user: { id: user.id, avatar: user.avatar || undefined },
+                user: { id: user.id, avatar: user.avatarId || undefined },
                 id: Date.now(),
               },
             ],
@@ -78,6 +79,22 @@ const StreamDetail: NextPage = () => {
           <span className="text-gray-600 text-sm">
             {data?.stream.description}
           </span>
+          <div
+            className={cls(
+              "bg-orange-400 p-5 rounded-md overflow-scroll flex flex-col space-y-3",
+              data?.stream.userId === user?.id ? "" : "hidden"
+            )}
+          >
+            <span>Stream Keys (secret)</span>
+            <span className="text-white">
+              <span className="font-medium text-gray-800">URL:</span>{" "}
+              {data?.stream.cloudflareUrl}
+            </span>
+            <span className="text-white">
+              <span className="font-medium text-gray-800">Key:</span>{" "}
+              {data?.stream.cloudflareKey}
+            </span>
+          </div>
         </div>
 
         <div className="flex flex-col space-y-3 mt-5 h-[45vh] overflow-y-scroll">
