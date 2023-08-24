@@ -5,7 +5,7 @@ import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { Review, User } from "@prisma/client";
 import { cls } from "@libs/client/utils";
-import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare";
 import Image from "next/image";
 interface IReviewWithReviewer extends Review {
   reviewedBy: User;

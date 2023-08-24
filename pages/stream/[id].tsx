@@ -8,8 +8,9 @@ import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { useEffect, useRef } from "react";
-import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare";
 import { cls } from "@libs/client/utils";
+import CFVideo from "@components/cloudflare-video";
 
 interface IStreamWithMessage extends Stream {
   messages: {
@@ -72,7 +73,8 @@ const StreamDetail: NextPage = () => {
     <Layout canGoBack={true}>
       <div className="px-4 pb-10">
         <div className="flex flex-col space-y-2 pb-3 mt-4">
-          <div className="w-full bg-gray-400 aspect-video rounded-sm" />
+          <CFVideo streamID={data?.stream.cloudflareId || ""} />
+
           <span className="text-gray-800 text-2xl text-center">
             {data?.stream.name}
           </span>

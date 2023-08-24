@@ -4,57 +4,69 @@ import FloatingButton from "@components/floatingbutton";
 import Link from "next/link";
 import useSWR from "swr";
 import { Stream } from "@prisma/client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import useIntersect from "@libs/client/useIntersect";
+import { getThumbnailUrl } from "@libs/client/cloudflare";
+import Image from "next/image";
+import useSWRInfinite from "swr/infinite";
 
 interface IStreamsResponse {
   ok: boolean;
   streams: Stream[];
 }
 
-interface IPageProps {
-  pageIndex: number;
-}
+const PAGE_SIZE = 10;
 
-const Page = ({ pageIndex }: IPageProps) => {
-  const { data } = useSWR<IStreamsResponse>(`/api/stream?page=${pageIndex}`);
+const getKey = (pageIndex: number, previousPageData: IStreamsResponse) => {
+  if (previousPageData && previousPageData.streams.length < PAGE_SIZE)
+    return null; // reached the end
 
-  const stream = data?.streams ? data?.streams[0] : null;
-
-  if (!stream) return;
-
-  return (
-    <Link
-      href={`/stream/${stream.id}`}
-      key={stream.id}
-      className="flex flex-col space-y-2 border-b pb-3"
-    >
-      <div className="w-full bg-gray-400 aspect-video rounded-sm" />
-      <span className="text-gray-800 text-lg">{stream.name}</span>
-    </Link>
-  );
+  return `/api/stream?page=${pageIndex}&pagesize=${PAGE_SIZE}`; // SWR key
 };
 
 const StreamList: NextPage = () => {
-  const [page, setPage] = useState(1);
+  const { data, size, setSize, isLoading } =
+    useSWRInfinite<IStreamsResponse>(getKey);
 
-  const getNewPage = () => {
-    setPage((prev) => prev + 1);
-  };
+  const isEmpty = data?.[0].streams.length === 0;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1].streams.length < PAGE_SIZE);
 
-  const { reference } = useIntersect(getNewPage);
-
-  const pages = [];
-  for (let i = 1; i <= page; i++) {
-    pages.push(<Page key={i} pageIndex={i} />);
-  }
+  console.log(data);
 
   return (
     <Layout title="라이브" hasTabBar={true}>
       <div className="px-4">
         <div className="flex flex-col space-y-4">
-          {pages}
-          <div ref={reference} />
+          {data?.map((item) => {
+            return item.streams.map((stream) => (
+              <Link
+                href={`/stream/${stream.id}`}
+                key={stream.id}
+                className="flex flex-col space-y-2 border-b pb-3"
+              >
+                <div className="w-full relative aspect-video rounded-sm">
+                  <Image
+                    src={getThumbnailUrl(stream.cloudflareId)}
+                    alt="thumnail"
+                    fill
+                  />
+                </div>
+                <span className="text-gray-800 text-lg">{stream.name}</span>
+              </Link>
+            ));
+          })}
+
+          <button
+            onClick={() => setSize(size + 1)}
+            disabled={isLoading || isReachingEnd}
+          >
+            {isLoading
+              ? "Loading..."
+              : isReachingEnd
+              ? "No more data"
+              : "Load more data"}
+          </button>
         </div>
 
         <FloatingButton href="/stream/create">

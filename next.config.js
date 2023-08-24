@@ -2,6 +2,9 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["imagedelivery.net"],
+    domains: [
+      "imagedelivery.net",
+      "customer-k9b8drf9qom1xd57.cloudflarestream.com",
+    ],
   },
 };

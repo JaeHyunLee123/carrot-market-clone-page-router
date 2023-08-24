@@ -7,7 +7,7 @@ import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useUser from "@libs/client/useUser";
-import { uploadImage } from "@libs/client/cloudflare-image";
+import { uploadImage } from "@libs/client/cloudflare";
 
 interface IUploadItemForm {
   name: string;

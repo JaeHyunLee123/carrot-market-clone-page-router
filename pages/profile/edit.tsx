@@ -6,8 +6,8 @@ import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useMutation from "@libs/client/useMutation";
-import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
-import { uploadImage } from "@libs/client/cloudflare-image";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare";
+import { uploadImage } from "@libs/client/cloudflare";
 
 interface IEditProfileForm {
   formError?: string;

@@ -10,7 +10,7 @@ const useIntersect = (
   options?: IntersectionObserverInit
 ) => {
   const reference = useRef<HTMLDivElement>(null);
-  const [isObserving, setIsObserving] = useState(true);
+
   const callback = useCallback(
     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
       entries.forEach((entry) => {
@@ -21,11 +21,11 @@ const useIntersect = (
   );
 
   useEffect(() => {
-    if (!(reference.current && isObserving)) return;
+    if (!reference.current) return;
     const observer = new IntersectionObserver(callback, options);
     observer.observe(reference.current);
     return () => observer.disconnect();
-  }, [reference, options, callback, isObserving]);
+  }, [reference, options, callback]);
 
   return { reference };
 };

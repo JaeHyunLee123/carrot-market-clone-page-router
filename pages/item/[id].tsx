@@ -7,7 +7,7 @@ import Link from "next/link";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import Image from "next/image";
-import { getCloudflareImageUrl } from "@libs/client/cloudflare-image";
+import { getCloudflareImageUrl } from "@libs/client/cloudflare";
 
 interface IItemWithUserInfo extends Item {
   user: { id: number; username: string; avatarId: string };

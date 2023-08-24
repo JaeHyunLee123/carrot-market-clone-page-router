@@ -64,14 +64,16 @@ const handler = async (
     res.status(200).json({ ok: true, stream });
   } else if (req.method === "GET") {
     const {
-      query: { page },
+      query: { page, pagesize },
     } = req;
 
+    const size = pagesize ? +pagesize.toString() : 10;
+
     const streams = await prisma.stream.findMany({
-      select: { name: true, id: true },
+      select: { name: true, id: true, cloudflareId: true },
       orderBy: { createdAt: "desc" },
-      take: 1,
-      skip: Number(page) - 1,
+      take: size,
+      skip: Number(page) * size,
     });
 
     res.status(200).json({ ok: true, streams });
