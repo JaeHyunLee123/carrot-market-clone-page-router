@@ -37,6 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 1. apply infinite scroll to anywhere
 1. while infintit scroll if there isn't data anymore stop fetch data
+1. deal with cloudflare video and thumbnail
 
 ## What to configure in .env
 
